@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSE Class XI Computer Science (083) - 10 Pre-Annual Mock Papers & Answer Keys</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Official CBSE Question Paper Typography & Print Styles */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+        .cbse-paper {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            background: #ffffff;
+            color: #000000;
+            max-width: 210mm;
+            margin: 24px auto;
+            padding: 18mm 18mm;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #cbd5e1;
+            line-height: 1.45;
+            font-size: 11.5pt;
+        }
+        .cbse-paper pre, .cbse-paper code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 10pt;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 3px;
+        }
+        .cbse-paper pre {
+            padding: 8px 12px;
+            margin: 6px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.35;
+        }
+        .cbse-paper code {
+            padding: 1px 4px;
+        }
+        .section-banner {
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-top: 1.5px solid #000;
+            border-bottom: 1.5px solid #000;
+            padding: 4px 0;
+            margin: 18px 0 12px 0;
+            letter-spacing: 0.5px;
+            background-color: #f8fafc;
+        }
+        .q-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 11px;
+            page-break-inside: avoid;
+        }
+        .q-num {
+            width: 34px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        .q-body {
+            flex: 1;
+            padding-right: 12px;
+        }
+        .q-marks {
+            width: 34px;
+            flex-shrink: 0;
+            text-align: right;
+            font-weight: bold;
+        }
+        .mcq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 4px 16px;
+            margin-top: 5px;
+        }
+        .or-divider {
+            text-align: center;
+            font-weight: bold;
+            margin: 6px 0;
+            font-style: italic;
+        }
+        @media screen and (max-width: 768px) {
+            .cbse-paper {
+                margin: 12px;
+                padding: 16px;
+                font-size: 10.5pt;
+            }
+            .mcq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 14mm 14mm 14mm 14mm;
+            }
+            body {
+                background: #ffffff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .cbse-paper {
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            .cbse-paper pre {
+                background-color: #ffffff !important;
+                border: 1px solid #94a3b8 !important;
+            }
+            .section-banner {
+                background-color: #f1f5f9 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Control & Navigation Bar (Hidden during print) -->
+    <header class="no-print sticky top-0 z-50 bg-slate-900 text-white shadow-lg border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="bg-amber-500 text-slate-950 font-extrabold px-2.5 py-1 rounded text-sm tracking-wide">
+                        CBSE 083
+                    </div>
+                    <div>
+                        <h1 class="text-base sm:text-lg font-bold leading-tight">Class XI Computer Science — Pre-Annual Examination Portal</h1>
+                        <p class="text-xs text-slate-400">10 Full-Syllabus Mock Papers (70 Marks each) &amp; Complete Marking Scheme</p>
+                    </div>
+                </div>
+
+                <!-- Primary Mode Switcher -->
+                <div class="flex items-center bg-slate-800 p-1 rounded-lg border border-slate-700">
+                    <button id="btnModePaper" onclick="switchMode('paper')" class="px-3.5 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition bg-blue-600 text-white shadow">
+                        📄 Question Papers (1–10)
+                    </button>
+                    <button id="btnModeKey" onclick="switchMode('key')" class="px-3.5 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white">
+                        ✅ Answer Keys &amp; Marking Scheme
+                    </button>
+                </div>
+
+                <!-- Utilities: Timer & Print -->
+                <div class="flex items-center gap-2">
+                    <div class="hidden md:flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+                        <span class="text-slate-400">Exam Timer:</span>
+                        <span id="timerDisplay" class="font-mono font-bold text-amber-400 text-sm">03:00:00</span>
+                        <button id="timerToggleBtn" onclick="toggleTimer()" class="ml-1 px-2 py-0.5 bg-slate-700 hover:bg-slate-600 rounded text-white font-medium">Start</button>
+                        <button onclick="resetTimer()" class="px-2 py-0.5 bg-slate-700 hover:bg-slate-600 rounded text-slate-300">Reset</button>
+                    </div>
+                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow transition cursor-pointer">
+                        <span>🖨️</span> Print Current View
+                    </button>
+                </div>
+            </div>
+
+            <!-- Set Selector Tabs (Set 1 to Set 10) -->
+            <div class="mt-3 pt-2.5 border-t border-slate-800 flex items-center gap-1.5 overflow-x-auto pb-1" id="setTabsContainer">
+                <!-- Populated dynamically by JS -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Paper / Answer Key Display Sheet -->
+    <main id="paperRenderArea" class="cbse-paper">
+        <!-- Rendered dynamically via JavaScript -->
+    </main>
+
+    <!-- Footer Note (Hidden on print) -->
+    <footer class="no-print text-center text-xs text-slate-500 py-6">
+        Aligned with Latest CBSE Class XI Computer Science (Subject Code 083) Curriculum &amp; Sample Paper Pattern (37 Questions • 70 Marks).
+    </footer>
+
+<script>
+// ============================================================================
+// CBSE CLASS XI COMPUTER SCIENCE (083) - COMPLETE QUESTION BANK & 10 SETS
+// ============================================================================
+// Syllabus Blueprint per Paper (Total = 37 Questions, 70 Marks):
+// Section A: Q1 to Q21 (21 x 1 = 21 Marks) -> 18 MCQs + 3 Assertion-Reasoning
+// Section B: Q22 to Q28 (7 x 2 = 14 Marks)  -> Very Short Answer (2 Internal Choices)
+// Section C: Q29 to Q31 (3 x 3 = 9 Marks)   -> Short Answer (1 Internal Choice)
+// Section D: Q32 to Q35 (4 x 4 = 16 Marks)  -> Long Answer / Programming (1 Internal Choice)
+// Section E: Q36 to Q37 (2 x 5 = 10 Marks)  -> Case Study & Extended Programming (1 Internal Choice)
+// ============================================================================
+
+const PAPERS_DATA = [
+    // ========================================================================
+    // SET 1: FULL SYLLABUS MOCK PAPER 1
+    // ========================================================================
+    {
+        setNo: 1,
+        code: "083/XI/PRE-01",
+        series: "CBSE-XI-CS-SET-1",
+        secA: [
+            { q: "Which component of the CPU is responsible for directing and coordinating all operations of a computer system by generating timing and control signals?", opts: ["Arithmetic Logic Unit (ALU)", "Control Unit (CU)", "Memory Address Register (MAR)", "Cache Memory"], ans: "(b) Control Unit (CU)" },
+            { q: "Convert the hexadecimal number <code>(2F9)<sub>16</sub></code> into its equivalent octal representation.", opts: ["(1371)<sub>8</sub>", "(1731)<sub>8</sub>", "(1361)<sub>8</sub>", "(1271)<sub>8</sub>"], ans: "(a) (1371)<sub>8</sub> [2F9<sub>16</sub> = 0010 1111 1001<sub>2</sub> = 001 011 111 001<sub>2</sub> = 1371<sub>8</sub>]" },
+            { q: "According to De Morgan's First Law, the Boolean expression <code>(A + B)'</code> is logically equivalent to:", opts: ["A' + B'", "A' . B'", "A . B", "(A . B)'"], ans: "(b) A' . B'" },
+            { q: "Which encoding scheme is capable of representing characters from almost all written languages of the world using variable-width encoding (1 to 4 bytes)?", opts: ["ASCII", "ISCII", "UTF-8", "EBCDIC"], ans: "(c) UTF-8" },
+            { q: "Identify the invalid Python identifier from the following:", opts: ["_total_marks", "sum2026", "for_loop", "global"], ans: "(d) global (since 'global' is a reserved Python keyword)" },
+            { q: "What will be the output of the Python expression: <code>print(15 // 4 + 2 ** 3 ** 2 % 5)</code>?", opts: ["5", "4", "6", "3"], ans: "(a) 5 [2**(3**2) = 2**9 = 512; 512 % 5 = 2; 15 // 4 = 3; 3 + 2 = 5]" },
+            { q: "Which of the following Python data types is <strong>mutable</strong>?", opts: ["tuple", "str", "int", "dict"], ans: "(d) dict" },
+            { q: "What is the output of the following Python code snippet?<pre>s = 'PYTHON_PROGRAMMING'\nprint(s[-11:-4:2])</pre>", opts: ["PORM", "RGAM", "PGR", "ORMI"], ans: "(a) PORM [s[-11] is 'P', s[-9] is 'O', s[-7] is 'R', s[-5] is 'M']" },
+            { q: "Which list method removes and returns the element at a specified index, or the last element if no index is specified?", opts: ["remove()", "del()", "pop()", "clear()"], ans: "(c) pop()" },
+            { q: "Consider the tuple <code>T = (10, [20, 30], 40)</code>. What happens when <code>T[1][0] = 99</code> is executed?", opts: ["Raises TypeError", "Raises IndexError", "T becomes (10, [99, 30], 40)", "T becomes (99, [20, 30], 40)"], ans: "(c) T becomes (10, [99, 30], 40) (List inside tuple is mutable)" },
+            { q: "What will be the output of the following dictionary operation?<pre>d = {'A': 1, 'B': 2}\nprint(d.setdefault('C', 3), len(d))</pre>", opts: ["None 2", "3 3", "KeyError", "3 2"], ans: "(b) 3 3" },
+            { q: "Which function from the <code>math</code> module returns the largest integer less than or equal to a given floating-point number <code>x</code>?", opts: ["math.ceil(x)", "math.floor(x)", "math.trunc(x)", "math.fabs(x)"], ans: "(b) math.floor(x)" },
+            { q: "What are the possible outputs of <code>random.randrange(5, 15, 3)</code>?", opts: ["5, 8, 11, 14", "5, 8, 11, 14, 15", "8, 11, 14", "5, 6, 7, 8, 9, 10, 11, 12, 13, 14"], ans: "(a) 5, 8, 11, 14" },
+            { q: "Which of the following is NOT an example of system software?", opts: ["Device Driver", "Language Translator", "Operating System", "Spreadsheet Software"], ans: "(d) Spreadsheet Software (Application Software)" },
+            { q: "A type of cyber attack in which an attacker sends fraudulent emails disguised as legitimate institutions to steal sensitive login or banking credentials is called:", opts: ["Ransomware", "Phishing", "Eavesdropping", "Plagiarism"], ans: "(b) Phishing" },
+            { q: "Which open-source software license requires that any derivative work distributed must also be licensed under the exact same license terms (copyleft)?", opts: ["MIT License", "BSD License", "GNU General Public License (GPL)", "Apache License 2.0"], ans: "(c) GNU General Public License (GPL)" },
+            { q: "What is the output of the following loop?<pre>for i in range(1, 10, 3):\n    if i == 7:\n        break\n    print(i, end=' ')\nelse:\n    print('Done')</pre>", opts: ["1 4 7 Done", "1 4 Done", "1 4", "1 4 7"], ans: "(c) 1 4 (Because loop terminated via break, else block does not execute)" },
+            { q: "Which Indian legislation deals primarily with cybercrime, electronic commerce, and digital signatures?", opts: ["Indian Copyright Act, 1957", "Information Technology Act, 2000", "Indian Penal Code, 1860", "Right to Information Act, 2005"], ans: "(b) Information Technology Act, 2000" },
+            // Q19-Q21: Assertion-Reasoning
+            { isAR: true, A: "In Python, strings are immutable objects.", R: "Attempting to modify a character in a string using index assignment like <code>s[0] = 'A'</code> raises a <code>TypeError</code>.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "Cache memory speeds up the overall processing speed of the CPU.", R: "Cache memory has a larger storage capacity than secondary hard disk drives.", ans: "(c) A is true but R is false. (Cache is much smaller in capacity than HDD, though much faster)." },
+            { isAR: true, A: "Discarding old computers and mobile phones in regular municipal landfills poses severe environmental hazards.", R: "Electronic waste (e-waste) contains toxic heavy metals such as lead, mercury, and cadmium that leach into soil and groundwater.", ans: "(a) Both A and R are true and R is the correct explanation of A." }
+        ],
+        secB: [
+            { q: "Draw the logic gate circuit for the Boolean expression: <code>F(X, Y, Z) = (X' + Y) . (Y' + Z)</code> using basic logic gates.", orQ: "Verify the Boolean identity <code>A + A'.B = A + B</code> using a truth table.", ans: "Logic circuit uses two NOT gates (for X' and Y'), two OR gates (for X'+Y and Y'+Z), and one final AND gate.<br><strong>OR Truth Table:</strong><br>A=0,B=0 &rarr; LHS=0, RHS=0 | A=0,B=1 &rarr; LHS=1, RHS=1 | A=1,B=0 &rarr; LHS=1, RHS=1 | A=1,B=1 &rarr; LHS=1, RHS=1. Since LHS = RHS for all combinations, verified. (2 Marks)" },
+            { q: "Differentiate between a Compiler and an Interpreter on any two points.", ans: "1. <strong>Translation Process:</strong> A compiler translates the entire source program into machine code at once, whereas an interpreter translates and executes line-by-line.<br>2. <strong>Error Reporting &amp; Execution Speed:</strong> Compiler reports all syntax errors together after scanning the whole file and runs faster; interpreter stops at the first error encountered and runs slower. (1 Mark per valid point)" },
+            { q: "Rewrite the following Python code after removing all syntax and logical errors. Underline each correction made.<pre>Num = int(input(\"Enter number: \"))\nSum = 0\nfor i in range(1, Num)\n    if i % 2 = 0:\n        Sum =+ i\nprint(\"Sum of even numbers:\", sum)</pre>", ans: "Corrected Code:<pre>Num = int(input(\"Enter number: \"))\nSum = 0\nfor i in range(1, <u>Num + 1</u>)<u>:</u>\n    if i % 2 <u>==</u> 0:\n        Sum <u>+=</u> i\nprint(\"Sum of even numbers:\", <u>Sum</u>)</pre>(½ mark for each of the 4 corrections: colon, <code>==</code>, <code>+=</code>, case of <code>Sum</code>/range)" },
+            { q: "Predict the exact output of the following Python code:<pre>L = [12, 5, 8, 19, 4]\nL.insert(2, 15)\nL.sort(reverse=True)\nprint(L[1:4])\nprint(L.pop(2))</pre>", ans: "After insert(2, 15): <code>[12, 5, 15, 8, 19, 4]</code><br>After sort(reverse=True): <code>[19, 15, 12, 8, 5, 4]</code><br>Line 1 Output: <code>[15, 12, 8]</code> (1 Mark)<br>Line 2 Output: <code>12</code> (1 Mark)" },
+            { q: "Write a Python program to input a string and count the number of uppercase letters, lowercase letters, and digits present in it.", orQ: "Write a Python program to input a list of integers and swap adjacent elements (e.g., <code>[10, 20, 30, 40]</code> becomes <code>[20, 10, 40, 30]</code>).", ans: "<pre>s = input(\"Enter string: \")\nu = l = d = 0\nfor ch in s:\n    if ch.isupper(): u += 1\n    elif ch.islower(): l += 1\n    elif ch.isdigit(): d += 1\nprint(\"Upper:\", u, \"Lower:\", l, \"Digits:\", d)</pre><strong>OR:</strong><pre>L = eval(input(\"Enter list: \"))\nfor i in range(0, len(L)-1, 2):\n    L[i], L[i+1] = L[i+1], L[i]\nprint(L)</pre>(2 Marks)" },
+            { q: "Define Digital Footprint. Differentiate between Active and Passive digital footprints.", ans: "A <strong>Digital Footprint</strong> is the trail of data and records left behind by a user's online activities.<br>• <strong>Active Digital Footprint:</strong> Data intentionally submitted online by the user (e.g., social media posts, emails, online forms).<br>• <strong>Passive Digital Footprint:</strong> Data collected without the user's direct knowledge (e.g., IP address logging, browser cookies, search history tracking). (2 Marks)" },
+            { q: "Explain the difference between <code>is</code> and <code>==</code> operators in Python with a suitable example.", ans: "<code>==</code> checks for <strong>value equality</strong> (whether two objects hold the same data), whereas <code>is</code> checks for <strong>identity</strong> (whether two variables point to the exact same memory location/object).<br>Example: <code>a = [1, 2]; b = [1, 2]</code> &rarr; <code>a == b</code> is <code>True</code>, while <code>a is b</code> is <code>False</code>. (2 Marks)" }
+        ],
+        secC: [
+            { q: "Perform the following number system conversions (show clear steps):<br>(i) <code>(110110.101)<sub>2</sub></code> to Decimal<br>(ii) <code>(349)<sub>10</sub></code> to Hexadecimal<br>(iii) <code>(725)<sub>8</sub></code> to Binary", ans: "(i) <code>1×2<sup>5</sup> + 1×2<sup>4</sup> + 0×2<sup>3</sup> + 1×2<sup>2</sup> + 1×2<sup>1</sup> + 0×2<sup>0</sup> + 1×2<sup>-1</sup> + 0×2<sup>-2</sup> + 1×2<sup>-3</sup> = 32 + 16 + 4 + 2 + 0.5 + 0.125 = (54.625)<sub>10</sub></code> (1 Mark)<br>(ii) 349 ÷ 16 = 21 rem 13 (D); 21 ÷ 16 = 1 rem 5; 1 ÷ 16 = 0 rem 1 &rarr; <code>(15D)<sub>16</sub></code> (1 Mark)<br>(iii) 7 = 111, 2 = 010, 5 = 101 &rarr; <code>(111010101)<sub>2</sub></code> (1 Mark)" },
+            { q: "Write a Python program to input the value of <code>x</code> and <code>n</code>, and compute the sum of the following series:<br><code>S = 1 - x<sup>2</sup>/2! + x<sup>4</sup>/4! - x<sup>6</sup>/6! + ... up to n terms</code>", orQ: "Write a Python program to check whether an input number is an <strong>Armstrong Number</strong> or not (e.g., 153 = 1<sup>3</sup> + 5<sup>3</sup> + 3<sup>3</sup>).", ans: "<pre>import math\nx = float(input(\"Enter x: \"))\nn = int(input(\"Enter terms n: \"))\nS = 0\nfor i in range(n):\n    power = 2 * i\n    term = ((-1) ** i) * (x ** power) / math.factorial(power)\n    S += term\nprint(\"Sum of series =\", S)</pre><strong>OR:</strong><pre>num = int(input(\"Enter number: \"))\np = len(str(num))\ntemp, total = num, 0\nwhile temp > 0:\n    digit = temp % 10\n    total += digit ** p\n    temp //= 10\nif total == num:\n    print(\"Armstrong Number\")\nelse:\n    print(\"Not an Armstrong Number\")</pre>(3 Marks)" },
+            { q: "Trace the output of the following Python code:<pre>text = \"Code2026!\"\nres = \"\"\nfor i in range(len(text)):\n    if text[i].isupper():\n        res += text[i].lower()\n    elif text[i].islower():\n        res += text[i].upper()\n    elif text[i].isdigit():\n        res += str(int(text[i]) + 1)\n    else:\n        res += \"*\"\nprint(res)</pre>", ans: "Character-by-character transformation:<br>'C' &rarr; 'c', 'o' &rarr; 'O', 'd' &rarr; 'D', 'e' &rarr; 'E', '2' &rarr; '3', '0' &rarr; '1', '2' &rarr; '3', '6' &rarr; '7', '!' &rarr; '*'<br>Final Output: <code>cODE3137*</code> (3 Marks)" }
+        ],
+        secD: [
+            { q: "Write a Python program that accepts a sentence from the user and performs the following operations:<br>(i) Display the total number of words in the sentence.<br>(ii) Find and display the longest word in the sentence.<br>(iii) Display the sentence in Title Case without using the built-in <code>title()</code> method.", ans: "<pre>sent = input(\"Enter a sentence: \")\nwords = sent.split()\nprint(\"Total words:\", len(words))\nlongest = \"\"\nfor w in words:\n    if len(w) > len(longest):\n        longest = w\nprint(\"Longest word:\", longest)\ntitle_words = [w[0].upper() + w[1:].lower() for w in words]\nprint(\"Title Case:\", \" \".join(title_words))</pre>(1 Mark input/split, 1 Mark word count, 1 Mark longest word, 1 Mark title case)" },
+            { q: "A school stores student records in a dictionary <code>Marks</code> where keys are Roll Numbers (integers) and values are lists of 3 subject marks <code>[Phy, Chem, CS]</code>. Write a Python program to:<br>(i) Input details for <code>N</code> students into the dictionary.<br>(ii) Display the Roll Number and average marks of each student.<br>(iii) Print the Roll Number of the student who scored the highest total marks.", orQ: "Write a Python program to input a list of numbers and separate all prime numbers into a list <code>PrimeList</code> and composite numbers into <code>CompList</code>. Display both lists.", ans: "<pre>Marks = {}\nn = int(input(\"Enter number of students: \"))\nfor _ in range(n):\n    r = int(input(\"Roll No: \"))\n    m = [float(input(\"M1: \")), float(input(\"M2: \")), float(input(\"M3: \"))]\n    Marks[r] = m\n\ntop_roll, max_tot = None, -1\nfor r, m in Marks.items():\n    tot = sum(m)\n    print(f\"Roll {r}: Average = {tot/3:.2f}\")\n    if tot > max_tot:\n        max_tot = tot\n        top_roll = r\nprint(\"Topper Roll No:\", top_roll)</pre>(4 Marks)" },
+            { q: "Explain the following Intellectual Property Rights (IPR) and Cyber Security terms with real-world examples:<br>(i) Copyright vs. Patent<br>(ii) Trademark<br>(iii) Ransomware<br>(iv) Plagiarism", ans: "(i) <strong>Copyright vs Patent:</strong> Copyright protects original literary, artistic, musical, and software code works automatically upon creation; Patent grants exclusive rights for a novel technical invention/process for a limited period (usually 20 years). (1 Mark)<br>(ii) <strong>Trademark:</strong> A recognizable sign, logo, design, or expression that distinguishes products/services of one enterprise from others (e.g., Apple logo). (1 Mark)<br>(iii) <strong>Ransomware:</strong> Malicious software that encrypts a victim's files and demands a ransom payment for the decryption key. (1 Mark)<br>(iv) <strong>Plagiarism:</strong> Presenting someone else's ideas, text, or code as one's own without proper attribution. (1 Mark)" },
+            { q: "Draw a neat block diagram of a Computer System showing all functional units (Input Unit, CPU with ALU, CU, Registers, Primary Memory, Secondary Storage, and Output Unit) and explain the role of Primary Memory (RAM and ROM).", ans: "Block diagram clearly showing data flow (solid arrows) and control signals (dashed arrows) between Input, CPU (CU, ALU, Registers), Main Memory, Secondary Storage, and Output. (2 Marks)<br><strong>RAM (Random Access Memory):</strong> Volatile read/write memory holding active programs and data currently being processed by the CPU. (1 Mark)<br><strong>ROM (Read Only Memory):</strong> Non-volatile memory storing permanent firmware/BIOS instructions needed to boot the computer. (1 Mark)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (Tuple &amp; Statistics Analysis):</strong><br>The meteorological department recorded daily maximum temperatures (in °C) for a week in a tuple:<br><code>Temp = (32.5, 34.0, 31.8, 35.2, 33.0, 34.0, 30.5)</code><br>Based on the above tuple and Python's <code>statistics</code> module, answer the following:<br>(i) Write a statement to import the <code>statistics</code> module and compute the mean temperature. (1)<br>(ii) Write a statement to find the median temperature using the appropriate module function. (1)<br>(iii) Write a Python statement to find how many days recorded a temperature of <code>34.0°C</code>. (1)<br>(iv) Explain why <code>Temp[2] = 32.0</code> will generate an error and how you can create a new tuple with updated values. (2)", ans: "(i) <code>import statistics; print(statistics.mean(Temp))</code> (1 Mark)<br>(ii) <code>print(statistics.median(Temp))</code> (1 Mark)<br>(iii) <code>print(Temp.count(34.0))</code> (1 Mark)<br>(iv) Tuples in Python are immutable, so item assignment raises <code>TypeError: 'tuple' object does not support item assignment</code>. To update, convert to a list, modify, and convert back: <code>L = list(Temp); L[2] = 32.0; Temp = tuple(L)</code>. (2 Marks)" },
+            { q: "Write a menu-driven Python program to perform the following operations on a list of integers entered by the user:<br>1. Find the second largest element in the list without using <code>sort()</code>.<br>2. Shift all zeros in the list to the right end while maintaining the relative order of non-zero elements (e.g., <code>[0, 4, 0, 3, 12]</code> &rarr; <code>[4, 3, 12, 0, 0]</code>).<br>3. Exit", orQ: "Write a Python program to input a string and generate a frequency dictionary of each vowel (a, e, i, o, u - case-insensitive) present in the string, and also print the pattern below for <code>N</code> rows:<pre>1\n1 2\n1 2 3\n1 2 3 4</pre>", ans: "<pre>L = eval(input(\"Enter list of integers: \"))\nwhile True:\n    print(\"1. Second Largest\\n2. Shift Zeros Right\\n3. Exit\")\n    ch = int(input(\"Enter choice: \"))\n    if ch == 1:\n        first = second = float('-inf')\n        for x in L:\n            if x > first:\n                second, first = first, x\n            elif first > x > second:\n                second = x\n        print(\"Second Largest:\", second)\n    elif ch == 2:\n        res = [x for x in L if x != 0] + [0] * L.count(0)\n        print(\"Updated List:\", res)\n    elif ch == 3:\n        break</pre>(5 Marks)" }
+        ]
+    },
+
+    // ========================================================================
+    // SET 2: FULL SYLLABUS MOCK PAPER 2
+    // ========================================================================
+    {
+        setNo: 2,
+        code: "083/XI/PRE-02",
+        series: "CBSE-XI-CS-SET-2",
+        secA: [
+            { q: "Which of the following memory units is fastest in terms of access speed?", opts: ["RAM", "CPU Registers", "Cache Memory", "Solid State Drive (SSD)"], ans: "(b) CPU Registers" },
+            { q: "What is the binary equivalent of the decimal number <code>(67)<sub>10</sub></code>?", opts: ["(1000011)<sub>2</sub>", "(1000101)<sub>2</sub>", "(1001011)<sub>2</sub>", "(1100011)<sub>2</sub>"], ans: "(a) (1000011)<sub>2</sub> [64 + 2 + 1 = 67]" },
+            { q: "Which universal logic gate produces a LOW (0) output only when all its inputs are HIGH (1)?", opts: ["NOR", "XOR", "NAND", "OR"], ans: "(c) NAND" },
+            { q: "ISCII stands for:", opts: ["Indian Standard Code for Information Interchange", "International Standard Code for Information Interchange", "Indian System Code for Internet Integration", "Integrated Standard Code for Indian Information"], ans: "(a) Indian Standard Code for Information Interchange" },
+            { q: "Which of the following is a valid relational expression in Python that evaluates to <code>True</code>?", opts: ["'Apple' < 'apple'", "10 == '10'", "5 != 5.0", "True == 0"], ans: "(a) 'Apple' < 'apple' (ASCII of 'A' is 65 < 'a' which is 97)" },
+            { q: "Evaluate the Python expression: <code>not (10 > 5 and 3 == 4) or (2 + 3 == 6)</code>", opts: ["False", "True", "None", "SyntaxError"], ans: "(b) True [not(True and False) or False -> not(False) or False -> True]" },
+            { q: "What will be the data type of variable <code>x</code> after executing: <code>x = (50)</code>?", opts: ["tuple", "int", "list", "set"], ans: "(b) int (Single-element tuple requires a trailing comma: (50,))" },
+            { q: "Find the output of:<pre>msg = \"Computer Science\"\nprint(msg.find(\"e\", 7))</pre>", opts: ["6", "11", "15", "-1"], ans: "(b) 11 ('e' at index 6 is skipped; next 'e' in 'Science' is at index 11)" },
+            { q: "What does <code>list(\"ABC\") * 2</code> evaluate to in Python?", opts: ["['ABC', 'ABC']", "['A', 'B', 'C', 'A', 'B', 'C']", "['AA', 'BB', 'CC']", "TypeError"], ans: "(b) ['A', 'B', 'C', 'A', 'B', 'C']" },
+            { q: "Which dictionary method removes all key-value pairs from the dictionary without deleting the dictionary object itself?", opts: ["popitem()", "del()", "clear()", "remove()"], ans: "(c) clear()" },
+            { q: "What is the output of:<pre>D = {1: 'One', 2: 'Two', 3: 'Three'}\nprint(list(D.values())[1])</pre>", opts: ["1", "'One'", "'Two'", "2"], ans: "(c) 'Two'" },
+            { q: "Which function in the <code>statistics</code> module returns the most frequently occurring value in a dataset?", opts: ["mean()", "median()", "mode()", "average()"], ans: "(c) mode()" },
+            { q: "What will <code>math.sqrt(16) + math.pow(2, 3)</code> return?", opts: ["12", "12.0", "10.0", "14.0"], ans: "(b) 12.0 (Both math.sqrt and math.pow return float)" },
+            { q: "An Operating System function that manages allocation and deallocation of main memory blocks to various running processes is called:", opts: ["Device Management", "Memory Management", "File Management", "Command Interpretation"], ans: "(b) Memory Management" },
+            { q: "Stealing someone else's personal identity information such as Aadhaar, PAN, or credit card details to commit financial fraud is termed as:", opts: ["Cyber Stalking", "Identity Theft", "Trolling", "Spamming"], ans: "(b) Identity Theft" },
+            { q: "Which of the following is considered good Netiquette?", opts: ["Typing entire emails in ALL CAPS", "Forwarding unverified chain messages", "Respecting privacy and citing sources when sharing content", "Posting personal details of classmates publicly"], ans: "(c) Respecting privacy and citing sources when sharing content" },
+            { q: "Identify the type of error in the statement: <code>print(100 / 0)</code>", opts: ["Syntax Error", "Logical Error", "Runtime Error (ZeroDivisionError)", "Indentation Error"], ans: "(c) Runtime Error (ZeroDivisionError)" },
+            { q: "Proprietary software whose source code is kept secret and requires users to purchase a license is known as:", opts: ["FOSS", "Freeware", "Closed-source / Proprietary Software", "Shareware"], ans: "(c) Closed-source / Proprietary Software" },
+            // Q19-Q21: Assertion-Reasoning
+            { isAR: true, A: "In a Python dictionary, keys must be of an immutable data type.", R: "Lists cannot be used as dictionary keys because lists are mutable and unhashable.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "An AND gate outputs 1 only when all of its inputs are 1.", R: "The Boolean operation represented by an AND gate corresponds to logical addition.", ans: "(c) A is true but R is false. (AND represents logical multiplication, OR represents logical addition)." },
+            { isAR: true, A: "Using HTTPS instead of HTTP ensures encrypted communication between a web browser and a web server.", R: "HTTPS uses SSL/TLS protocols to protect sensitive user data from eavesdropping.", ans: "(a) Both A and R are true and R is the correct explanation of A." }
+        ],
+        secB: [
+            { q: "State and prove the Distributive Law <code>X.(Y + Z) = X.Y + X.Z</code> using a truth table.", ans: "Truth table with 8 rows for (X, Y, Z) comparing columns <code>X.(Y+Z)</code> and <code>X.Y + X.Z</code>. Both columns yield identical outputs (0,0,0,0,0,1,1,1), proving the law. (2 Marks)" },
+            { q: "Differentiate between Primary Memory and Secondary Storage on any two parameters.", orQ: "What is an Operating System? List any two functions of an Operating System.", ans: "1. <strong>Volatility:</strong> Primary memory (RAM) is volatile, whereas secondary storage (HDD/SSD) is non-volatile.<br>2. <strong>Speed &amp; Direct CPU Access:</strong> Primary memory is directly accessed by CPU at high speeds; secondary storage is slower and accessed via I/O channels.<br><strong>OR:</strong> OS is system software acting as an interface between user and hardware. Functions: Process Management, Memory Management, File Management. (2 Marks)" },
+            { q: "Convert the following:<br>(i) <code>(10111011)<sub>2</sub></code> to Hexadecimal<br>(ii) <code>(45)<sub>10</sub></code> to Octal", ans: "(i) Group in 4 bits from right: <code>1011 1011</code> &rarr; 11 is B &rarr; <code>(BB)<sub>16</sub></code> (1 Mark)<br>(ii) 45 ÷ 8 = 5 rem 5; 5 ÷ 8 = 0 rem 5 &rarr; <code>(55)<sub>8</sub></code> (1 Mark)" },
+            { q: "Predict the output of the following Python snippet:<pre>x = 5\nwhile x > 0:\n    x -= 1\n    if x == 2:\n        continue\n    print(x, end='#')</pre>", ans: "Trace: x becomes 4 (prints 4#), 3 (prints 3#), 2 (continue skips print), 1 (prints 1#), 0 (prints 0#).<br>Output: <code>4#3#1#0#</code> (2 Marks)" },
+            { q: "Differentiate between <code>append()</code> and <code>extend()</code> methods of a Python list with an example.", ans: "<code>append(item)</code> adds its argument as a single element at the end of the list, increasing length by 1. <code>extend(iterable)</code> iterates over its argument and adds each element individually.<br>Example: <code>L = [1, 2]; L.append([3, 4])</code> &rarr; <code>[1, 2, [3, 4]]</code>; whereas <code>L.extend([3, 4])</code> &rarr; <code>[1, 2, 3, 4]</code>. (2 Marks)" },
+            { q: "Write a Python program to input three sides of a triangle and check whether the triangle is Equilateral, Isosceles, or Scalene.", orQ: "Write a Python program to input a year and check whether it is a leap year or not.", ans: "<pre>a = float(input(\"Side 1: \"))\nb = float(input(\"Side 2: \"))\nc = float(input(\"Side 3: \"))\nif a == b == c:\n    print(\"Equilateral Triangle\")\nelif a == b or b == c or a == c:\n    print(\"Isosceles Triangle\")\nelse:\n    print(\"Scalene Triangle\")</pre><strong>OR:</strong><pre>y = int(input(\"Enter year: \"))\nif (y % 4 == 0 and y % 100 != 0) or (y % 400 == 0):\n    print(\"Leap Year\")\nelse:\n    print(\"Not a Leap Year\")</pre>(2 Marks)" },
+            { q: "What are Cookies in web browsers? Mention one advantage and one privacy concern associated with them.", ans: "Cookies are small text files stored on a user's computer by websites to remember user preferences, login sessions, and shopping cart items.<br>• <strong>Advantage:</strong> Enhances user browsing convenience (auto-login, saved settings).<br>• <strong>Concern:</strong> Third-party tracking cookies can monitor browsing habits across websites without explicit consent. (2 Marks)" }
+        ],
+        secC: [
+            { q: "Draw a flowchart to find the factorial of a positive integer <code>N</code> entered by the user.", ans: "Standard flowchart symbols:<br>• Oval (Start) &rarr; Parallelogram (Input N) &rarr; Rectangle (Fact = 1, i = 1) &rarr; Diamond (Is i &lt;= N?) &rarr; Yes: Rectangle (Fact = Fact * i, i = i + 1) looping back to Diamond &rarr; No: Parallelogram (Print Fact) &rarr; Oval (Stop). (3 Marks)" },
+            { q: "Write a Python program to input a string and check whether it is a <strong>Palindrome</strong> or not without using string slicing <code>[::-1]</code>.", orQ: "Write a Python program to input a list of integers and count the frequency of each unique element using a dictionary.", ans: "<pre>s = input(\"Enter string: \")\nrev = \"\"\nfor ch in s:\n    rev = ch + rev\nif s.lower() == rev.lower():\n    print(\"Palindrome\")\nelse:\n    print(\"Not a Palindrome\")</pre><strong>OR:</strong><pre>L = eval(input(\"Enter list: \"))\nfreq = {}\nfor item in L:\n    freq[item] = freq.get(item, 0) + 1\nprint(\"Frequency Dictionary:\", freq)</pre>(3 Marks)" },
+            { q: "Find the output of the following Python code:<pre>T = (10, 20, 30, 40, 50, 60)\nprint(T[1:5:2])\nprint(T[-1:-4:-1])\nprint(sum(T[::2]))</pre>", ans: "1. <code>T[1:5:2]</code> &rarr; <code>(20, 40)</code> (1 Mark)<br>2. <code>T[-1:-4:-1]</code> &rarr; <code>(60, 50, 40)</code> (1 Mark)<br>3. <code>T[::2]</code> is <code>(10, 30, 50)</code> &rarr; <code>sum</code> = <code>90</code> (1 Mark)" }
+        ],
+        secD: [
+            { q: "Write a Python program to input <code>N</code> numbers into a list and sort them in ascending order using the <strong>Bubble Sort</strong> algorithm. Display the list after every pass.", ans: "<pre>L = eval(input(\"Enter list of numbers: \"))\nn = len(L)\nfor i in range(n - 1):\n    for j in range(n - 1 - i):\n        if L[j] > L[j + 1]:\n            L[j], L[j + 1] = L[j + 1], L[j]\n    print(f\"After Pass {i+1}:\", L)\nprint(\"Sorted List:\", L)</pre>(1 Mark input, 2 Marks nested loops &amp; swap logic, 1 Mark pass-wise output)" },
+            { q: "Write a Python program to create a dictionary <code>Employee</code> containing <code>EmpID</code> as key and a tuple <code>(Name, Salary)</code> as value. Write code to:<br>(i) Add 5 employee records.<br>(ii) Increase the salary by 10% for employees earning less than ₹50,000.<br>(iii) Display all updated employee records.", orQ: "Write a Python program to input a string and replace every vowel with the next consecutive vowel (a&rarr;e, e&rarr;i, i&rarr;o, o&rarr;u, u&rarr;a) while preserving case.", ans: "<pre>Employee = {}\nfor _ in range(5):\n    eid = int(input(\"EmpID: \"))\n    name = input(\"Name: \")\n    sal = float(input(\"Salary: \"))\n    Employee[eid] = (name, sal)\n\nfor eid in Employee:\n    name, sal = Employee[eid]\n    if sal < 50000:\n        Employee[eid] = (name, sal * 1.10)\n\nfor k, v in Employee.items():\n    print(k, \":\", v)</pre>(4 Marks)" },
+            { q: "Explain the following types of Cyber Crimes and Malware:<br>(i) Trojan Horse<br>(ii) Adware<br>(iii) Cyber Bullying<br>(iv) Eavesdropping", ans: "(i) <strong>Trojan Horse:</strong> Malware disguised as legitimate, useful software that tricks users into installing it to gain unauthorized access. (1 Mark)<br>(ii) <strong>Adware:</strong> Software that automatically displays or downloads unwanted advertisements, often tracking browsing behavior. (1 Mark)<br>(iii) <strong>Cyber Bullying:</strong> Harassing, threatening, or humiliating someone using digital platforms like social media or messaging apps. (1 Mark)<br>(iv) <strong>Eavesdropping:</strong> Unauthorized real-time interception of private electronic communications over a network. (1 Mark)" },
+            { q: "Draw the logic circuit for the Boolean expression <code>F = A.B + B'.C + A.C'</code> using basic gates, and construct the complete truth table for <code>F</code>.", ans: "Circuit uses 2 NOT gates (B', C'), 3 AND gates (A.B, B'.C, A.C'), and 1 three-input OR gate. (2 Marks)<br>Truth table for 8 combinations (000 to 111): Outputs F = [0, 1, 0, 0, 1, 1, 1, 1]. (2 Marks)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (Random &amp; Math Simulation):</strong><br>Rohan is designing a Python dice-simulation game using the <code>random</code> and <code>math</code> modules:<pre>import random, math\nscore = 0\nfor turn in range(1, 5):\n    dice = random.randint(1, 6)\n    score += dice\nprint(\"Total:\", score)\nprint(\"Root:\", round(math.sqrt(score), 2))</pre>(i) What are the minimum and maximum possible values of <code>score</code>? (1)<br>(ii) If <code>random.randrange(1, 6)</code> were used instead of <code>random.randint(1, 6)</code>, how would the output range change? (1)<br>(iii) Write a Python statement using <code>random.choice()</code> to randomly pick a bonus multiplier from <code>[1.5, 2.0, 2.5]</code>. (1)<br>(iv) Explain the difference between <code>random.random()</code> and <code>random.uniform(a, b)</code>. (2)", ans: "(i) Minimum possible score = 4 (four 1s); Maximum possible score = 24 (four 6s). (1 Mark)<br>(ii) <code>random.randrange(1, 6)</code> excludes 6, so dice values would only be from 1 to 5 (max score 20). (1 Mark)<br>(iii) <code>bonus = random.choice([1.5, 2.0, 2.5])</code> (1 Mark)<br>(iv) <code>random.random()</code> generates a random float in the half-open range <code>[0.0, 1.0)</code> without arguments, whereas <code>random.uniform(a, b)</code> generates a random float between two specified bounds <code>a</code> and <code>b</code>. (2 Marks)" },
+            { q: "Write a Python program to generate and print the Fibonacci series up to <code>N</code> terms, and also print the following character pattern for <code>N</code> rows:<pre>A\nA B\nA B C\nA B C D</pre>", orQ: "Write a Python program to input a list of integers and find:<br>(i) Sum of all numbers divisible by 3 or 5.<br>(ii) Product of all odd numbers in the list.<br>(iii) Create a new list containing only unique elements in their original order.", ans: "<pre>n = int(input(\"Enter N: \"))\na, b = 0, 1\nprint(\"Fibonacci Series:\")\nfor _ in range(n):\n    print(a, end=\" \")\n    a, b = b, a + b\nprint(\"\\nPattern:\")\nfor i in range(1, n + 1):\n    for j in range(i):\n        print(chr(65 + j), end=\" \")\n    print()</pre>(2.5 Marks Fibonacci + 2.5 Marks Pattern)" }
+        ]
+    },
+
+    // ========================================================================
+    // SET 3: FULL SYLLABUS MOCK PAPER 3
+    // ========================================================================
+    {
+        setNo: 3,
+        code: "083/XI/PRE-03",
+        series: "CBSE-XI-CS-SET-3",
+        secA: [
+            { q: "Which bus in a computer system carries memory addresses from the CPU to Main Memory?", opts: ["Data Bus", "Control Bus", "Address Bus", "System Bus"], ans: "(c) Address Bus" },
+            { q: "What is the hexadecimal equivalent of the binary number <code>(110101110)<sub>2</sub></code>?", opts: ["(1AE)<sub>16</sub>", "(1BE)<sub>16</sub>", "(D70)<sub>16</sub>", "(1AF)<sub>16</sub>"], ans: "(a) (1AE)<sub>16</sub> [0001 1010 1110 -> 1 A E]" },
+            { q: "The Boolean expression <code>A . (A + B)</code> simplifies to:", opts: ["B", "A", "A + B", "A . B"], ans: "(b) A (Absorption Law)" },
+            { q: "Which of the following is an example of Application Software?", opts: ["Linux Kernel", "Interpreter", "Adobe Photoshop", "BIOS"], ans: "(c) Adobe Photoshop" },
+            { q: "What will be the output of <code>type(5 / 2)</code> and <code>type(5 // 2)</code> in Python?", opts: ["&lt;class 'int'&gt; &lt;class 'int'&gt;", "&lt;class 'float'&gt; &lt;class 'int'&gt;", "&lt;class 'float'&gt; &lt;class 'float'&gt;", "&lt;class 'int'&gt; &lt;class 'float'&gt;"], ans: "(b) <class 'float'> <class 'int'>" },
+            { q: "Identify the output of: <code>print('5' + '3' * 2)</code>", opts: ["11", "56", "'533'", "533"], ans: "(d) 533 ('3'*2 is '33', '5'+'33' is '533')" },
+            { q: "Which Python keyword is used to define an empty block or null operation placeholder?", opts: ["null", "void", "pass", "skip"], ans: "(c) pass" },
+            { q: "What is the output of:<pre>s = \"informatics\"\nprint(s.capitalize(), s.count('i'))</pre>", opts: ["Informatics 2", "INFORMATICS 2", "Informatics 1", "informatics 2"], ans: "(a) Informatics 2" },
+            { q: "Consider <code>L = [2, 4, 6, 8, 10]</code>. What will <code>L[-2::-2]</code> return?", opts: ["[8, 4]", "[10, 6, 2]", "[8, 6, 4, 2]", "[6, 2]"], ans: "(a) [8, 4]" },
+            { q: "Which statement correctly creates a single-element tuple containing the number 100?", opts: ["T = (100)", "T = tuple(100)", "T = (100,)", "T = [100]"], ans: "(c) T = (100,)" },
+            { q: "What happens when <code>D.get('KeyX', 'Not Found')</code> is called on a dictionary <code>D</code> that does not contain <code>'KeyX'</code>?", opts: ["Raises KeyError", "Returns None", "Returns 'Not Found'", "Adds 'KeyX' to D"], ans: "(c) Returns 'Not Found'" },
+            { q: "What will <code>math.fabs(-14.5)</code> return in Python?", opts: ["-14.5", "14", "14.5", "15.0"], ans: "(c) 14.5" },
+            { q: "Which function in the <code>random</code> module shuffles the elements of a list in place?", opts: ["random.mix()", "random.shuffle()", "random.sample()", "random.reorder()"], ans: "(b) random.shuffle()" },
+            { q: "1 Petabyte (PB) is equal to:", opts: ["1024 Gigabytes", "1024 Terabytes", "1024 Megabytes", "1024 Exabytes"], ans: "(b) 1024 Terabytes" },
+            { q: "Unsolicited bulk emails sent to a large number of recipients for commercial advertising are called:", opts: ["Phishing", "Spam", "Spoofing", "Trojans"], ans: "(b) Spam" },
+            { q: "Which of the following is a valid way to safely dispose of e-waste?", opts: ["Burning plastic casings in open air", "Throwing old batteries in household trash", "Handing over devices to authorized e-waste recyclers", "Dumping circuit boards in water bodies"], ans: "(c) Handing over devices to authorized e-waste recyclers" },
+            { q: "How many times will the loop execute?<pre>i = 10\nwhile i >= 2:\n    print(i)\n    i -= 3</pre>", opts: ["2 times", "3 times", "4 times", "Infinite times"], ans: "(b) 3 times (i = 10, 7, 4; next i = 1 stops loop)" },
+            { q: "Exclusive rights granted to an inventor for a novel technical invention are protected under:", opts: ["Copyright", "Trademark", "Patent", "Creative Commons"], ans: "(c) Patent" },
+            { isAR: true, A: "Python is a dynamically typed programming language.", R: "In Python, the data type of a variable is determined automatically at runtime based on the value assigned to it.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "An XOR gate produces an output of 1 when both inputs are identical.", R: "XOR stands for Exclusive-OR gate.", ans: "(d) A is false but R is true. (XOR outputs 1 when inputs are different, 0 when identical)." },
+            { isAR: true, A: "Open-source software allows users to view, modify, and distribute its source code.", R: "All open-source software is strictly proprietary and cannot be used for commercial purposes.", ans: "(c) A is true but R is false." }
+        ],
+        secB: [
+            { q: "Draw a truth table for the 3-input Boolean expression <code>F(A, B, C) = A'.B + B.C'</code>.", ans: "Truth table covering all 8 input combinations (000 to 111) with intermediate columns A', C', A'.B, B.C', and final F = [0, 0, 1, 1, 0, 0, 1, 0]. (2 Marks)" },
+            { q: "Explain the boot-up process of a computer system in brief, highlighting the role of BIOS/POST.", orQ: "Convert: (i) <code>(255)<sub>10</sub></code> to Binary (ii) <code>(7F)<sub>16</sub></code> to Decimal.", ans: "When power is switched on, CPU executes firmware stored in ROM (BIOS). BIOS runs POST (Power-On Self-Test) to verify hardware health, locates the bootable drive, and loads the Operating System kernel into RAM.<br><strong>OR:</strong> (i) <code>(11111111)<sub>2</sub></code> (ii) 7×16 + 15 = <code>(127)<sub>10</sub></code>. (2 Marks)" },
+            { q: "Differentiate between <code>break</code> and <code>continue</code> statements in Python with a short example.", ans: "<code>break</code> immediately terminates the enclosing loop and transfers control to the statement following the loop. <code>continue</code> skips the remaining statements in the current iteration and jumps to the next iteration of the loop. (2 Marks)" },
+            { q: "Predict the output of:<pre>d = {'x': 10, 'y': 20, 'z': 30}\nfor k in d:\n    d[k] = d[k] + 5\nprint(d.pop('y'))\nprint(d)</pre>", ans: "Line 1 Output: <code>25</code> (1 Mark)<br>Line 2 Output: <code>{'x': 15, 'z': 35}</code> (1 Mark)" },
+            { q: "Write a Python program to input a list of integers and count how many elements are positive, negative, and zero.", orQ: "Write a Python program to input a string and remove all spaces from it without using <code>replace()</code>.", ans: "<pre>L = eval(input(\"Enter list: \"))\np = n = z = 0\nfor x in L:\n    if x > 0: p += 1\n    elif x < 0: n += 1\n    else: z += 1\nprint(\"Pos:\", p, \"Neg:\", n, \"Zero:\", z)</pre><strong>OR:</strong><pre>s = input(\"Enter string: \")\nres = \"\"\nfor ch in s:\n    if ch != ' ':\n        res += ch\nprint(res)</pre>(2 Marks)" },
+            { q: "What is Cyber Stalking? Mention two preventive measures to stay safe from cyber stalking.", ans: "Cyber stalking is the repeated use of electronic communications to harass, monitor, or intimidate an individual.<br><strong>Measures:</strong> 1. Keep social media profiles private and limit personal location sharing. 2. Use strong, unique passwords and enable Two-Factor Authentication (2FA). (2 Marks)" },
+            { q: "Differentiate between <code>sort()</code> and <code>sorted()</code> in Python.", ans: "<code>list.sort()</code> is a list-specific method that modifies the original list in place and returns <code>None</code>. <code>sorted(iterable)</code> is a built-in function that works on any iterable (list, tuple, string) and returns a new sorted list without altering the original object. (2 Marks)" }
+        ],
+        secC: [
+            { q: "Write an algorithm and draw a flowchart to find the largest of three distinct numbers A, B, and C.", ans: "<strong>Algorithm:</strong> Step 1: Start. Step 2: Input A, B, C. Step 3: If A > B and A > C then print A; else if B > C then print B; else print C. Step 4: Stop. (1.5 Marks)<br><strong>Flowchart:</strong> Valid decision diamonds and I/O parallelograms matching the algorithm. (1.5 Marks)" },
+            { q: "Write a Python program to input a positive integer and check whether it is a <strong>Perfect Number</strong> (a number equal to the sum of its proper positive divisors, e.g., 6 = 1 + 2 + 3).", orQ: "Write a Python program to input <code>x</code> and <code>n</code> and find the sum of the series:<br><code>S = x + x<sup>2</sup>/2 + x<sup>3</sup>/3 + ... + x<sup>n</sup>/n</code>", ans: "<pre>n = int(input(\"Enter number: \"))\ns = 0\nfor i in range(1, n):\n    if n % i == 0:\n        s += i\nif s == n:\n    print(\"Perfect Number\")\nelse:\n    print(\"Not a Perfect Number\")</pre><strong>OR:</strong><pre>x = float(input(\"Enter x: \"))\nn = int(input(\"Enter n: \"))\nS = sum((x ** i) / i for i in range(1, n + 1))\nprint(\"Sum =\", S)</pre>(3 Marks)" },
+            { q: "Predict the exact output of the following Python code:<pre>L = [10, 20, 30, 40, 50]\nfor i in range(len(L)):\n    if i % 2 == 0:\n        L[i] += 5\n    else:\n        L[i] -= 5\nprint(L)\nprint(L[::-2])</pre>", ans: "Index 0: 15, Index 1: 15, Index 2: 35, Index 3: 35, Index 4: 55<br>Line 1 Output: <code>[15, 15, 35, 35, 55]</code> (1.5 Marks)<br>Line 2 Output: <code>[55, 35, 15]</code> (1.5 Marks)" }
+        ],
+        secD: [
+            { q: "Write a Python program to input a list of integers and search for a target element using the <strong>Binary Search</strong> algorithm (assume the input list is sorted in ascending order). Display its index if found, or an appropriate message.", ans: "<pre>L = eval(input(\"Enter sorted list: \"))\nkey = int(input(\"Enter element to search: \"))\nlow, high = 0, len(L) - 1\nfound = -1\nwhile low <= high:\n    mid = (low + high) // 2\n    if L[mid] == key:\n        found = mid\n        break\n    elif L[mid] < key:\n        low = mid + 1\n    else:\n        high = mid - 1\nif found != -1:\n    print(\"Found at index:\", found)\nelse:\n    print(\"Element not found\")</pre>(4 Marks)" },
+            { q: "Create a dictionary <code>Countries</code> storing Country names as keys and their Capitals as values. Write a menu-driven Python program to:<br>1. Add a new Country-Capital pair.<br>2. Display the Capital for a given Country.<br>3. Display all Countries whose capital name starts with a vowel.<br>4. Exit", orQ: "Write a Python program to input a tuple of integers and create two new tuples: <code>EvenTup</code> containing all even numbers and <code>OddTup</code> containing all odd numbers. Display both tuples along with their maximum and minimum values.", ans: "<pre>Countries = {}\nwhile True:\n    ch = int(input(\"1.Add 2.Search 3.Vowel Capitals 4.Exit: \"))\n    if ch == 1:\n        c = input(\"Country: \")\n        cap = input(\"Capital: \")\n        Countries[c] = cap\n    elif ch == 2:\n        c = input(\"Enter Country: \")\n        print(\"Capital:\", Countries.get(c, \"Not Found\"))\n    elif ch == 3:\n        for c, cap in Countries.items():\n            if cap[0].lower() in 'aeiou':\n                print(c, \"->\", cap)\n    elif ch == 4:\n        break</pre>(4 Marks)" },
+            { q: "Discuss four gender and disability issues encountered while teaching and using computers in classrooms, and suggest practical solutions for inclusive computing.", ans: "1. <strong>Gender Stereotyping:</strong> Societal bias discouraging female students from pursuing coding/STEM. Solution: Highlight diverse role models and ensure equal lab access. (1 Mark)<br>2. <strong>Visual Impairments:</strong> Standard GUI screens are inaccessible to blind/low-vision learners. Solution: Provide screen readers (NVDA/JAWS), high-contrast themes, and Braille keyboards. (1 Mark)<br>3. <strong>Motor/Physical Disabilities:</strong> Difficulty using standard mouse/keyboard. Solution: Use adaptive keyboards, voice recognition software, and eye-tracking devices. (1 Mark)<br>4. <strong>Hearing Impairments:</strong> Audio-only tutorials exclude deaf students. Solution: Provide closed captions (CC) and visual transcripts for all digital content. (1 Mark)" },
+            { q: "State De Morgan's Laws (both First and Second Laws) and prove both algebraically / using truth tables.", ans: "<strong>First Law:</strong> <code>(A + B)' = A' . B'</code> (1 Mark)<br><strong>Second Law:</strong> <code>(A . B)' = A' + B'</code> (1 Mark)<br>Complete 4-row truth table for inputs A, B (00, 01, 10, 11) verifying equality of columns for both laws. (2 Marks)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (String &amp; Text Processing):</strong><br>An online examination portal validates student passwords stored in string variable <code>pwd</code>. Write Python statements/code for the following:<br>(i) Check if <code>pwd</code> has at least 8 characters and is alphanumeric. (1)<br>(ii) Extract the last 4 characters of <code>pwd</code> using negative slicing. (1)<br>(iii) Check if <code>pwd</code> starts with an uppercase letter. (1)<br>(iv) Write a loop to count how many special characters (neither alphabet nor digit) exist in <code>pwd</code>. (2)", ans: "(i) <code>len(pwd) >= 8 and pwd.isalnum()</code> (1 Mark)<br>(ii) <code>pwd[-4:]</code> (1 Mark)<br>(iii) <code>pwd[0].isupper()</code> (1 Mark)<br>(iv)<pre>sp = 0\nfor ch in pwd:\n    if not ch.isalnum():\n        sp += 1\nprint(\"Special chars:\", sp)</pre>(2 Marks)" },
+            { q: "Write a Python program to input a list of <code>N</code> integers and remove all duplicate elements from the list without using <code>set()</code>, preserving the first occurrence of each element. Also print the pattern:<pre>* * * *\n* * *\n* *\n*</pre>", orQ: "Write a Python program to input an integer <code>N</code> and print all prime numbers between 1 and <code>N</code>, along with their total count and sum.", ans: "<pre>L = eval(input(\"Enter list: \"))\nunique = []\nfor x in L:\n    if x not in unique:\n        unique.append(x)\nprint(\"List without duplicates:\", unique)\n\nrows = int(input(\"Enter rows: \"))\nfor i in range(rows, 0, -1):\n    print(\"* \" * i)</pre>(3 Marks duplicate removal + 2 Marks pattern)" }
+        ]
+    },
+
+    // ========================================================================
+    // SET 4: FULL SYLLABUS MOCK PAPER 4
+    // ========================================================================
+    {
+        setNo: 4,
+        code: "083/XI/PRE-04",
+        series: "CBSE-XI-CS-SET-4",
+        secA: [
+            { q: "Which register holds the instruction currently being decoded and executed by the CPU?", opts: ["Program Counter (PC)", "Instruction Register (IR)", "Memory Buffer Register (MBR)", "Accumulator"], ans: "(b) Instruction Register (IR)" },
+            { q: "Convert <code>(156)<sub>8</sub></code> into its decimal equivalent:", opts: ["(110)<sub>10</sub>", "(112)<sub>10</sub>", "(108)<sub>10</sub>", "(118)<sub>10</sub>"], ans: "(a) (110)<sub>10</sub> [1×64 + 5×8 + 6×1 = 64 + 40 + 6 = 110]" },
+            { q: "Which logic gate is known as an Inverter?", opts: ["OR", "AND", "NOT", "NOR"], ans: "(c) NOT" },
+            { q: "What is the base (radix) of the Hexadecimal number system?", opts: ["2", "8", "10", "16"], ans: "(d) 16" },
+            { q: "Which operator has the highest precedence in Python?", opts: ["+", "*", "**", "//"], ans: "(c) **" },
+            { q: "What is the output of <code>bool(0) + bool('False') + bool([])</code>?", opts: ["0", "1", "2", "3"], ans: "(b) 1 [False(0) + True(1) + False(0) = 1]" },
+            { q: "Which statement is used to terminate a loop prematurely in Python?", opts: ["stop", "exit", "break", "continue"], ans: "(c) break" },
+            { q: "What will be the output of:<pre>s = \"abracadabra\"\nprint(s.replace(\"a\", \"#\", 2))</pre>", opts: ["#br#cadabra", "#br#c#d#br#", "abracadabra", "#bracadabra"], ans: "(a) #br#cadabra (Replaces only first 2 occurrences)" },
+            { q: "What is the output of:<pre>A = [1, 2, 3]\nB = A\nB.append(4)\nprint(len(A))</pre>", opts: ["3", "4", "Error", "None"], ans: "(b) 4 (B is an alias referencing the same list object as A)" },
+            { q: "Which function returns the index of the first occurrence of an element in a tuple?", opts: ["find()", "search()", "index()", "locate()"], ans: "(c) index()" },
+            { q: "What will <code>dict([('a', 1), ('b', 2)])</code> produce?", opts: ["[('a', 1), ('b', 2)]", "{'a': 1, 'b': 2}", "('a': 1, 'b': 2)", "TypeError"], ans: "(b) {'a': 1, 'b': 2}" },
+            { q: "What is the output of <code>math.ceil(-4.7)</code>?", opts: ["-5", "-4", "4", "5"], ans: "(b) -4 (Smallest integer >= -4.7 is -4)" },
+            { q: "Which module is used to calculate standard deviation and variance in Python?", opts: ["math", "random", "statistics", "numpy_std"], ans: "(c) statistics" },
+            { q: "Software that converts assembly language code into machine code is called:", opts: ["Compiler", "Interpreter", "Assembler", "Linker"], ans: "(c) Assembler" },
+            { q: "Which of the following involves tricking a user into clicking malicious links disguised beneath legitimate buttons on a webpage?", opts: ["Clickjacking / Phishing", "Firewall", "Encryption", "Defragmentation"], ans: "(a) Clickjacking / Phishing" },
+            { q: "Creative Commons (CC) licenses are primarily used for:", opts: ["Proprietary operating systems", "Creative works, educational content, and media sharing", "Hardware patents", "Antivirus software"], ans: "(b) Creative works, educational content, and media sharing" },
+            { q: "Find the output of:<pre>for i in range(4):\n    print(i * '*', end='')</pre>", opts: ["******", "****", "***", "**********"], ans: "(a) ****** (0 + 1 + 2 + 3 = 6 asterisks)" },
+            { q: "What does FOSS stand for?", opts: ["Free and Open Source Software", "File Operating System Software", "Free Online Security System", "Fast Open Standard Software"], ans: "(a) Free and Open Source Software" },
+            { isAR: true, A: "A tuple can contain mutable objects like lists as its elements.", R: "Tuples are immutable, meaning the references stored inside the tuple cannot be reassigned to different objects.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "Unicode was developed to overcome the character limit of 7-bit ASCII.", R: "7-bit ASCII can represent only 128 characters, which is insufficient for non-English scripts.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "Using pirated software is safe and legally acceptable for personal study.", R: "Software piracy violates copyright laws and exposes systems to hidden malware.", ans: "(d) A is false but R is true." }
+        ],
+        secB: [
+            { q: "Draw a logic gate diagram for <code>Y = (A + B)' . (B + C)</code> using only NAND and NOR gates or basic gates.", ans: "Correct diagram using OR, NOT, and AND gates clearly labeled with inputs A, B, C and output Y. (2 Marks)" },
+            { q: "Differentiate between RAM and Cache Memory on any two points.", orQ: "Convert: (i) <code>(11011101)<sub>2</sub></code> to Octal (ii) <code>(94)<sub>10</sub></code> to Hexadecimal.", ans: "1. <strong>Speed &amp; Proximity:</strong> Cache is faster and located inside/closer to CPU than RAM. 2. <strong>Capacity &amp; Cost:</strong> Cache has much smaller capacity (MBs) and higher cost per bit than RAM (GBs).<br><strong>OR:</strong> (i) <code>011 011 101</code> = <code>(335)<sub>8</sub></code> (ii) 94 = 5×16 + 14(E) = <code>(5E)<sub>16</sub></code>. (2 Marks)" },
+            { q: "Explain implicit type conversion (coercion) and explicit type conversion (type casting) in Python with examples.", ans: "<strong>Implicit:</strong> Python automatically converts smaller data type to larger data type to avoid data loss (e.g., <code>5 + 2.5</code> &rarr; <code>7.5</code> float).<br><strong>Explicit:</strong> Programmer manually converts type using functions like <code>int()</code>, <code>float()</code>, <code>str()</code> (e.g., <code>int('42')</code> &rarr; <code>42</code>). (2 Marks)" },
+            { q: "Find the output of:<pre>s = \"Python3.11\"\nprint(s.isalnum(), s.isalpha())\nprint(s.split('.'))</pre>", ans: "Line 1 Output: <code>False False</code> (dot '.' is not alphanumeric) (1 Mark)<br>Line 2 Output: <code>['Python3', '11']</code> (1 Mark)" },
+            { q: "Write a Python program to input a list of integers and reverse the list in-place without using <code>reverse()</code> or slicing.", orQ: "Write a Python program to input a number and print its multiplication table from 1 to 10.", ans: "<pre>L = eval(input(\"Enter list: \"))\nn = len(L)\nfor i in range(n // 2):\n    L[i], L[n - 1 - i] = L[n - 1 - i], L[i]\nprint(L)</pre><strong>OR:</strong><pre>num = int(input(\"Enter number: \"))\nfor i in range(1, 11):\n    print(f\"{num} x {i} = {num*i}\")</pre>(2 Marks)" },
+            { q: "What is Cyber Bullying? List two steps a student should take if they experience cyber bullying.", ans: "Cyber bullying is online harassment, intimidation, or defamation via digital devices. Steps: 1. Do not retaliate; block the bully and save screenshots as evidence. 2. Report the incident to parents, school authorities, or platform moderators. (2 Marks)" },
+            { q: "What is the purpose of the <code>else</code> clause with a <code>while</code> loop in Python? When does it execute?", ans: "The <code>else</code> block attached to a <code>while</code> loop executes only when the loop terminates normally (i.e., when the loop condition becomes <code>False</code>), and does <strong>not</strong> execute if the loop is exited via a <code>break</code> statement. (2 Marks)" }
+        ],
+        secC: [
+            { q: "Draw a flowchart to check whether a given integer <code>N</code> is a Prime Number or not.", ans: "Start &rarr; Input N &rarr; Check if N &lt;= 1 (Not Prime) &rarr; Initialize i = 2, flag = 0 &rarr; Loop while i &lt;= N//2: if N % i == 0 then flag = 1, exit loop; else i = i + 1 &rarr; If flag == 0 Print Prime else Print Not Prime &rarr; Stop. (3 Marks)" },
+            { q: "Write a Python program to input a string and count the frequency of each character (case-insensitive) in a dictionary, ignoring spaces.", orQ: "Write a Python program to input <code>N</code> and find the sum of the series:<br><code>S = 1! + 2! + 3! + ... + N!</code>", ans: "<pre>s = input(\"Enter string: \").lower()\nfreq = {}\nfor ch in s:\n    if ch != ' ':\n        freq[ch] = freq.get(ch, 0) + 1\nprint(freq)</pre><strong>OR:</strong><pre>n = int(input(\"Enter N: \"))\nS, fact = 0, 1\nfor i in range(1, n + 1):\n    fact *= i\n    S += fact\nprint(\"Sum of factorials =\", S)</pre>(3 Marks)" },
+            { q: "Trace the output of:<pre>D = {'A': 10, 'B': 20, 'C': 30}\nD2 = {'B': 25, 'D': 40}\nD.update(D2)\nprint(D)\nprint(D.popitem())</pre>", ans: "After update: <code>{'A': 10, 'B': 25, 'C': 30, 'D': 40}</code> (1.5 Marks)<br><code>D.popitem()</code> removes and returns last inserted pair: <code>('D', 40)</code> (1.5 Marks)" }
+        ],
+        secD: [
+            { q: "Write a Python program to sort a list of integers in ascending order using the <strong>Selection Sort</strong> algorithm.", ans: "<pre>L = eval(input(\"Enter list: \"))\nn = len(L)\nfor i in range(n - 1):\n    min_idx = i\n    for j in range(i + 1, n):\n        if L[j] < L[min_idx]:\n            min_idx = j\n    L[i], L[min_idx] = L[min_idx], L[i]\nprint(\"Sorted List:\", L)</pre>(4 Marks)" },
+            { q: "Write a Python program to store product names as keys and their prices as values in a dictionary <code>Store</code>. Perform the following:<br>(i) Input <code>N</code> items.<br>(ii) Apply a 15% discount on all items priced above ₹1,000.<br>(iii) Display the item with the minimum price and the item with the maximum price.", orQ: "Write a Python program to input a sentence and swap the first and last letters of every word having length greater than 1.", ans: "<pre>Store = {}\nn = int(input(\"No. of items: \"))\nfor _ in range(n):\n    name = input(\"Item name: \")\n    price = float(input(\"Price: \"))\n    Store[name] = price\n\nfor k in Store:\n    if Store[k] > 1000:\n        Store[k] *= 0.85\n\nmax_item = max(Store, key=Store.get)\nmin_item = min(Store, key=Store.get)\nprint(\"Updated Store:\", Store)\nprint(\"Costliest:\", max_item, Store[max_item])\nprint(\"Cheapest:\", min_item, Store[min_item])</pre>(4 Marks)" },
+            { q: "Explain any four measures for safe E-Waste Management and disposal as per environmental guidelines.", ans: "1. <strong>Refurbish and Reuse:</strong> Donate or sell working older electronics to extend product lifespan. (1 Mark)<br>2. <strong>Authorized E-Waste Recyclers:</strong> Hand over broken devices to certified collection centers for safe extraction of precious metals. (1 Mark)<br>3. <strong>Manufacturer Take-Back Programs:</strong> Utilize buy-back or exchange schemes offered by OEMs. (1 Mark)<br>4. <strong>Segregation from Municipal Waste:</strong> Never mix batteries, CRTs, or PCBs with regular household garbage to prevent toxic leaching. (1 Mark)" },
+            { q: "Explain the Boolean laws: (i) Idempotent Law (ii) Involution Law (iii) Complementarity Law (iv) Associative Law, with algebraic equations.", ans: "(i) <strong>Idempotent Law:</strong> <code>A + A = A</code> and <code>A . A = A</code> (1 Mark)<br>(ii) <strong>Involution Law:</strong> <code>(A')' = A</code> (1 Mark)<br>(iii) <strong>Complementarity Law:</strong> <code>A + A' = 1</code> and <code>A . A' = 0</code> (1 Mark)<br>(iv) <strong>Associative Law:</strong> <code>(A + B) + C = A + (B + C)</code> and <code>(A . B) . C = A . (B . C)</code> (1 Mark)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (List Manipulation &amp; Slicing):</strong><br>A list stores monthly rainfall (in mm) for 6 months: <code>Rain = [45, 78, 120, 210, 185, 60]</code>.<br>Write Python statements to:<br>(i) Display the rainfall for the middle two months using slicing. (1)<br>(ii) Calculate the average rainfall using built-in functions <code>sum()</code> and <code>len()</code>. (1)<br>(iii) Insert <code>95</code> at index 2. (1)<br>(iv) Explain the difference between <code>del Rain[1:3]</code> and <code>Rain.clear()</code>. (2)", ans: "(i) <code>print(Rain[2:4])</code> (1 Mark)<br>(ii) <code>print(sum(Rain) / len(Rain))</code> (1 Mark)<br>(iii) <code>Rain.insert(2, 95)</code> (1 Mark)<br>(iv) <code>del Rain[1:3]</code> deletes only the slice of elements at indices 1 and 2, whereas <code>Rain.clear()</code> removes all elements from the list leaving an empty list <code>[]</code>. (2 Marks)" },
+            { q: "Write a Python program to check if a number is a <strong>Strong Number</strong> (sum of factorials of its digits equals the number itself, e.g., 145 = 1! + 4! + 5!), and print the pattern:<pre>1\n2 3\n4 5 6\n7 8 9 10</pre>", orQ: "Write a Python program to input a list of strings and:<br>(i) Count how many strings start and end with the same character.<br>(ii) Create a tuple containing the lengths of each string.", ans: "<pre>import math\nnum = int(input(\"Enter number: \"))\ntemp, s = num, 0\nwhile temp > 0:\n    s += math.factorial(temp % 10)\n    temp //= 10\nprint(\"Strong Number\" if s == num else \"Not Strong\")\n\nc = 1\nfor i in range(1, 5):\n    for j in range(i):\n        print(c, end=\" \")\n        c += 1\n    print()</pre>(3 Marks Strong Number + 2 Marks Floyd's Triangle Pattern)" }
+        ]
+    },
+
+    // ========================================================================
+    // SET 5: FULL SYLLABUS MOCK PAPER 5
+    // ========================================================================
+    {
+        setNo: 5,
+        code: "083/XI/PRE-05",
+        series: "CBSE-XI-CS-SET-5",
+        secA: [
+            { q: "Which unit of the CPU performs arithmetic calculations and logical comparisons?", opts: ["Control Unit", "ALU", "Cache", "ROM"], ans: "(b) ALU" },
+            { q: "What is the decimal value of the binary fraction <code>(0.101)<sub>2</sub></code>?", opts: ["0.5", "0.625", "0.75", "0.375"], ans: "(b) 0.625 [0.5 + 0 + 0.125]" },
+            { q: "Which logic gate outputs 1 if and only if an odd number of inputs are 1?", opts: ["NAND", "NOR", "XOR", "AND"], ans: "(c) XOR" },
+            { q: "How many bits are used in standard ASCII encoding?", opts: ["7 bits", "8 bits", "16 bits", "32 bits"], ans: "(a) 7 bits" },
+            { q: "What is the output of <code>print(2 ** 3 ** 2)</code> in Python?", opts: ["64", "512", "12", "18"], ans: "(b) 512 (Right-to-left associativity: 2**(3**2) = 2**9 = 512)" },
+            { q: "Which of the following is a membership operator in Python?", opts: ["is", "in", "and", "=="], ans: "(b) in" },
+            { q: "What will <code>\"Hello World\".istitle()</code> return?", opts: ["True", "False", "None", "Error"], ans: "(a) True" },
+            { q: "Find the output of:<pre>L = [10, 20, 30, 40]\nL[1:3] = [99]\nprint(L)</pre>", opts: ["[10, 99, 40]", "[10, 99, 30, 40]", "[10, [99], 40]", "TypeError"], ans: "(a) [10, 99, 40]" },
+            { q: "Which method returns a view object containing all (key, value) tuple pairs of a dictionary?", opts: ["keys()", "values()", "items()", "pairs()"], ans: "(c) items()" },
+            { q: "What is the output of <code>tuple(\"CODE\")</code>?", opts: ["('CODE',)", "('C', 'O', 'D', 'E')", "['C', 'O', 'D', 'E']", "Error"], ans: "(b) ('C', 'O', 'D', 'E')" },
+            { q: "What will <code>math.gcd(24, 36)</code> return?", opts: ["6", "12", "72", "4"], ans: "(b) 12" },
+            { q: "Which function returns a random integer <code>N</code> such that <code>a <= N <= b</code>?", opts: ["random.randrange(a, b)", "random.randint(a, b)", "random.random(a, b)", "random.uniform(a, b)"], ans: "(b) random.randint(a, b)" },
+            { q: "Which of the following is an example of system utility software?", opts: ["Antivirus / Disk Defragmenter", "MS Word", "Google Chrome", "VLC Media Player"], ans: "(a) Antivirus / Disk Defragmenter" },
+            { q: "Unauthorized copying, distribution, or use of licensed software is known as:", opts: ["Plagiarism", "Software Piracy", "Phishing", "Hacking"], ans: "(b) Software Piracy" },
+            { q: "Which protocol is used for secure, encrypted data transfer over the World Wide Web?", opts: ["HTTP", "FTP", "HTTPS", "SMTP"], ans: "(c) HTTPS" },
+            { q: "What is the output of:<pre>x = 0\nfor i in range(1, 6):\n    if i % 2 == 0:\n        continue\n    x += i\nprint(x)</pre>", opts: ["15", "9", "6", "10"], ans: "(b) 9 (1 + 3 + 5 = 9)" },
+            { q: "Which of the following is a valid empty dictionary declaration?", opts: ["d = []", "d = ()", "d = {}", "d = set()"], ans: "(c) d = {}" },
+            { q: "What is the full form of IPR?", opts: ["Internet Protocol Rights", "Intellectual Property Rights", "Internal Processing Register", "Indian Patent Registry"], ans: "(b) Intellectual Property Rights" },
+            { isAR: true, A: "The <code>popitem()</code> method in Python dictionaries removes an arbitrary/last inserted key-value pair and returns it as a tuple.", R: "Calling <code>popitem()</code> on an empty dictionary raises a <code>KeyError</code>.", ans: "(b) Both A and R are true, but R is not the correct explanation of A." },
+            { isAR: true, A: "A NOR gate is called a universal gate.", R: "Any basic logic gate (AND, OR, NOT) can be constructed using only NOR gates.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "Syntax errors are detected by the Python interpreter before program execution begins.", R: "Division by zero is an example of a syntax error.", ans: "(c) A is true but R is false. (Division by zero is a runtime exception)." }
+        ],
+        secB: [
+            { q: "Draw a truth table and logic symbol for a 2-input NOR gate and a 2-input XOR gate.", ans: "Correct symbols and 4-row truth tables: NOR outputs [1, 0, 0, 0]; XOR outputs [0, 1, 1, 0]. (2 Marks)" },
+            { q: "Convert:<br>(i) <code>(3A7)<sub>16</sub></code> to Binary<br>(ii) <code>(110110)<sub>2</sub></code> to Decimal", orQ: "What is UTF-32 encoding? How does it differ from UTF-8?", ans: "(i) 3=0011, A=1010, 7=0111 &rarr; <code>(001110100111)<sub>2</sub></code> (1 Mark)<br>(ii) 32+16+4+2 = <code>(54)<sub>10</sub></code> (1 Mark)<br><strong>OR:</strong> UTF-32 uses a fixed 32 bits (4 bytes) per character, whereas UTF-8 uses variable length (1 to 4 bytes) making it memory-efficient for ASCII text. (2 Marks)" },
+            { q: "Predict the output of:<pre>S = \"Python Programming\"\nprint(S.partition(\"Pro\"))\nprint(S.split(\"o\"))</pre>", ans: "Line 1 Output: <code>('Python ', 'Pro', 'gramming')</code> (1 Mark)<br>Line 2 Output: <code>['Pyth', 'n Pr', 'gramming']</code> (1 Mark)" },
+            { q: "Rewrite the following code after fixing all errors:<pre>def check():\n    x = input(\"Enter num: \")\n    if x > 10\n        print(\"Greater\")\n    elif:\n        print(\"Smaller\")</pre>", ans: "Errors fixed: <code>int(input(...))</code>, colon after <code>if x > 10:</code>, change <code>elif:</code> to <code>else:</code>. (2 Marks)" },
+            { q: "Write a Python program to input a list of integers and find the sum of elements at even indices and odd indices separately.", orQ: "Write a Python program to input a string and check whether all characters in it are digits without using <code>isdigit()</code>.", ans: "<pre>L = eval(input(\"Enter list: \"))\neven_sum = sum(L[0::2])\nodd_sum = sum(L[1::2])\nprint(\"Even index sum:\", even_sum, \"Odd index sum:\", odd_sum)</pre><strong>OR:</strong><pre>s = input(\"Enter string: \")\nflag = True\nfor ch in s:\n    if not ('0' <= ch <= '9'):\n        flag = False\n        break\nprint(\"All digits:\" , flag)</pre>(2 Marks)" },
+            { q: "Differentiate between Phishing and Identity Theft.", ans: "<strong>Phishing</strong> is the deceptive technique of luring victims via fake emails/websites to reveal sensitive credentials. <strong>Identity Theft</strong> is the actual criminal misuse of another person's stolen personal or financial identity data to commit fraud. (2 Marks)" },
+            { q: "What is the difference between <code>remove()</code> and <code>pop()</code> in Python lists?", ans: "<code>remove(val)</code> deletes the first matching occurrence of the specified value and returns <code>None</code> (raises <code>ValueError</code> if absent). <code>pop(idx)</code> deletes the element at the given index and returns the removed element (raises <code>IndexError</code> if out of range). (2 Marks)" }
+        ],
+        secC: [
+            { q: "Draw a flowchart to compute the sum of digits of a positive integer <code>N</code>.", ans: "Start &rarr; Input N &rarr; Sum = 0 &rarr; Diamond (Is N &gt; 0?) &rarr; Yes: d = N % 10, Sum = Sum + d, N = N // 10 (loop back) &rarr; No: Print Sum &rarr; Stop. (3 Marks)" },
+            { q: "Write a Python program to input a tuple of numbers and count how many numbers are prime.", orQ: "Write a Python program to input <code>x</code> and <code>n</code> and compute:<br><code>S = 1 - x + x<sup>2</sup> - x<sup>3</sup> + ... up to n terms</code>", ans: "<pre>T = eval(input(\"Enter tuple: \"))\ncount = 0\nfor num in T:\n    if num > 1:\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                break\n        else:\n            count += 1\nprint(\"Prime count:\", count)</pre><strong>OR:</strong><pre>x = float(input(\"Enter x: \"))\nn = int(input(\"Enter n: \"))\nS = sum(((-x) ** i) for i in range(n))\nprint(\"Sum =\", S)</pre>(3 Marks)" },
+            { q: "Trace the output of:<pre>L = [5, 10, 15, 20, 25]\nL.append([30, 35])\nprint(len(L))\nprint(L[5][1])\nL.extend([40, 45])\nprint(len(L))</pre>", ans: "Line 1: <code>6</code> (1 Mark)<br>Line 2: <code>35</code> (1 Mark)<br>Line 3: <code>8</code> (1 Mark)" }
+        ],
+        secD: [
+            { q: "Write a Python program to input a sentence and create a dictionary where keys are words and values are their lengths. Also display all words that are palindromes.", ans: "<pre>sent = input(\"Enter sentence: \")\nwords = sent.split()\nword_len = {}\npalindromes = []\nfor w in words:\n    word_len[w] = len(w)\n    if w.lower() == w.lower()[::-1] and len(w) > 1:\n        palindromes.append(w)\nprint(\"Dictionary:\", word_len)\nprint(\"Palindromes:\", palindromes)</pre>(4 Marks)" },
+            { q: "Write a Python program to input a list of <code>N</code> integers and rotate all elements to the left by <code>K</code> positions (e.g., <code>[1, 2, 3, 4, 5]</code> rotated left by 2 becomes <code>[3, 4, 5, 1, 2]</code>).", orQ: "Write a Python program to maintain student attendance in a dictionary <code>Att = {RollNo: DaysPresent}</code>. Input <code>N</code> students, display students with attendance &lt; 75% (out of 200 working days), and display the average attendance of the class.", ans: "<pre>L = eval(input(\"Enter list: \"))\nk = int(input(\"Enter K: \"))\nk = k % len(L)\nrotated = L[k:] + L[:k]\nprint(\"Left Rotated List:\", rotated)</pre>(4 Marks)" },
+            { q: "Explain the following concepts related to Digital Society &amp; Law:<br>(i) Active vs Passive Digital Footprint<br>(ii) Open Source Software vs Freeware<br>(iii) Firewall<br>(iv) Biometric Authentication", ans: "(i) Active is intentional data shared; Passive is background tracking data. (1 Mark)<br>(ii) Open Source provides source code for modification/redistribution; Freeware is free of cost but source code remains proprietary. (1 Mark)<br>(iii) Firewall is network security hardware/software filtering incoming and outgoing traffic based on security rules. (1 Mark)<br>(iv) Biometric authentication verifies identity using unique biological traits (fingerprint, iris, face). (1 Mark)" },
+            { q: "Construct the truth table and draw the logic circuit using only basic gates for: <code>F(P, Q, R) = (P + Q') . (Q + R')</code>.", ans: "Circuit with 2 NOT gates (Q', R'), 2 OR gates, and 1 AND gate. (2 Marks)<br>Complete 8-row truth table for P, Q, R yielding F = [1, 0, 0, 0, 1, 0, 1, 1]. (2 Marks)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (Dictionary &amp; Inventory System):</strong><br>A shop manages stock using <code>Stock = {'Pen': 50, 'Pencil': 120, 'Eraser': 30, 'Notebook': 85}</code>.<br>(i) Write a Python statement to check if <code>'Marker'</code> exists in <code>Stock</code>. (1)<br>(ii) Write a statement to update the quantity of <code>'Pen'</code> to 75. (1)<br>(iii) Write a statement to sort and display all item names in alphabetical order. (1)<br>(iv) Explain why dictionaries are unordered/insertion-ordered and why duplicate keys are not allowed. (2)", ans: "(i) <code>'Marker' in Stock</code> (1 Mark)<br>(ii) <code>Stock['Pen'] = 75</code> (1 Mark)<br>(iii) <code>print(sorted(Stock.keys()))</code> (1 Mark)<br>(iv) Dictionaries map unique keys via hashing to achieve O(1) lookup; duplicate keys would overwrite existing values, breaking unique key-to-value mapping. (2 Marks)" },
+            { q: "Write a Python program to input an integer <code>N</code> and print the following pyramid pattern, and also write code to calculate the Mean, Median, and Mode of a user-entered list using the <code>statistics</code> module:<pre>    1\n   1 2\n  1 2 3\n 1 2 3 4</pre>", orQ: "Write a Python program to input a string and convert it into CamelCase (e.g., <code>\"hello world python\"</code> &rarr; <code>\"helloWorldPython\"</code>) and count total consonants.", ans: "<pre>import statistics\nn = int(input(\"Enter rows: \"))\nfor i in range(1, n + 1):\n    print(\" \" * (n - i), end=\"\")\n    for j in range(1, i + 1):\n        print(j, end=\" \")\n    print()\n\nL = eval(input(\"Enter numeric list: \"))\nprint(\"Mean:\", statistics.mean(L))\nprint(\"Median:\", statistics.median(L))\nprint(\"Mode:\", statistics.mode(L))</pre>(2.5 Marks Pattern + 2.5 Marks Statistics)" }
+        ]
+    },
+
+    // ========================================================================
+    // SET 6: FULL SYLLABUS MOCK PAPER 6
+    // ========================================================================
+    {
+        setNo: 6,
+        code: "083/XI/PRE-06",
+        series: "CBSE-XI-CS-SET-6",
+        secA: [
+            { q: "Which memory is non-volatile and stores the firmware required to start a computer?", opts: ["SRAM", "DRAM", "ROM", "Cache"], ans: "(c) ROM" },
+            { q: "Convert <code>(74)<sub>8</sub></code> to Hexadecimal:", opts: ["(3C)<sub>16</sub>", "(3A)<sub>16</sub>", "(4C)<sub>16</sub>", "(2C)<sub>16</sub>"], ans: "(a) (3C)<sub>16</sub> [74<sub>8</sub> = 111 100<sub>2</sub> = 0011 1100<sub>2</sub> = 3C<sub>16</sub>]" },
+            { q: "According to Boolean Algebra, <code>A + 1</code> is always equal to:", opts: ["A", "0", "1", "A'"], ans: "(c) 1 (Annulment / Dominance Law)" },
+            { q: "Which language processor translates high-level code line by line during execution?", opts: ["Compiler", "Assembler", "Interpreter", "Loader"], ans: "(c) Interpreter" },
+            { q: "What is the output of <code>print(10 == 10.0 and 5 is not 5.0)</code>?", opts: ["True", "False", "SyntaxError", "None"], ans: "(a) True (10 == 10.0 is True; int 5 and float 5.0 are distinct objects so 'is not' is True)" },
+            { q: "Which of the following is an immutable sequence in Python?", opts: ["List", "Dictionary", "Tuple", "Set"], ans: "(c) Tuple" },
+            { q: "Find the output of:<pre>s = \"PYTHON\"\nprint(s.center(10, '*'))</pre>", opts: ["**PYTHON**", "***PYTHON*", "*PYTHON***", "PYTHON****"], ans: "(a) **PYTHON**" },
+            { q: "What will <code>[x**2 for x in range(1, 5) if x % 2 == 1]</code> evaluate to?", opts: ["[1, 4, 9, 16]", "[1, 9]", "[4, 16]", "[1, 3]"], ans: "(b) [1, 9]" },
+            { q: "Which tuple method returns the total number of occurrences of a specified value?", opts: ["len()", "count()", "find()", "freq()"], ans: "(b) count()" },
+            { q: "What is the output of:<pre>d = {'a': 1, 'b': 2}\nprint('a' in d, 1 in d)</pre>", opts: ["True True", "True False", "False True", "False False"], ans: "(b) True False ('in' checks keys by default)" },
+            { q: "What does <code>math.trunc(-9.87)</code> return?", opts: ["-10", "-9", "9", "-9.0"], ans: "(b) -9" },
+            { q: "Which function in the <code>random</code> module selects a single random element from a non-empty sequence?", opts: ["random.sample()", "random.choice()", "random.pick()", "random.select()"], ans: "(b) random.choice()" },
+            { q: "1 Terabyte (TB) equals:", opts: ["2<sup>30</sup> Bytes", "2<sup>40</sup> Bytes", "2<sup>20</sup> Bytes", "2<sup>50</sup> Bytes"], ans: "(b) 2<sup>40</sup> Bytes" },
+            { q: "Malicious software that disguises itself as a legitimate program to trick users into installing it is called a:", opts: ["Worm", "Trojan Horse", "Spyware", "Firewall"], ans: "(b) Trojan Horse" },
+            { q: "What is the primary purpose of a Firewall in a computer network?", opts: ["Speed up internet downloads", "Monitor and filter incoming/outgoing network traffic", "Compress large files", "Manage hard disk partitions"], ans: "(b) Monitor and filter incoming/outgoing network traffic" },
+            { q: "Which of the following is a valid Python keyword?", opts: ["elif", "elseif", "define", "include"], ans: "(a) elif" },
+            { q: "What is the output of:<pre>a = [1, 2, 3]\nb = a.copy()\nprint(a == b, a is b)</pre>", opts: ["True True", "True False", "False True", "False False"], ans: "(b) True False" },
+            { q: "The legal right that protects brand logos and names from unauthorized commercial use is:", opts: ["Patent", "Copyright", "Trademark", "GPL"], ans: "(c) Trademark" },
+            { isAR: true, A: "A <code>for</code> loop in Python can iterate directly over strings, lists, tuples, and dictionaries.", R: "All four data types are iterable objects in Python.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "Secondary memory is required for permanent storage of data and programs.", R: "Main memory (RAM) loses its contents when power is turned off.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "Sharing your OTP and bank PIN with customer care callers is recommended for account verification.", R: "Legitimate banks never ask customers for OTPs, passwords, or PINs over phone or email.", ans: "(d) A is false but R is true." }
+        ],
+        secB: [
+            { q: "Verify the Boolean Absorption Law <code>A + A.B = A</code> using a truth table.", ans: "Truth table for A, B (00, 01, 10, 11): A.B = [0, 0, 0, 1]; A + A.B = [0, 0, 1, 1], which matches column A. (2 Marks)" },
+            { q: "Differentiate between System Software and Application Software with two examples each.", orQ: "Convert: (i) <code>(1001110)<sub>2</sub></code> to Decimal (ii) <code>(214)<sub>10</sub></code> to Hexadecimal.", ans: "System Software manages hardware and provides a platform for apps (e.g., Windows OS, Compiler). Application Software performs specific user tasks (e.g., MS Excel, Web Browser).<br><strong>OR:</strong> (i) 64+8+4+2 = <code>(78)<sub>10</sub></code> (ii) 214 = 13(D)×16 + 6 = <code>(D6)<sub>16</sub></code>. (2 Marks)" },
+            { q: "Predict the output of:<pre>txt = \"Learning Python 3\"\nprint(txt.startswith(\"Learn\"))\nprint(txt.swapcase())</pre>", ans: "Line 1: <code>True</code> (1 Mark)<br>Line 2: <code>lEARNING pYTHON 3</code> (1 Mark)" },
+            { q: "Identify and correct the errors in the following code:<pre>T = (10, 20, 30)\nT.append(40)\nprint(T(1))</pre>", ans: "Errors: 1. Tuples are immutable and have no <code>append()</code> method (use <code>T = T + (40,)</code>). 2. Indexing uses square brackets <code>T[1]</code> instead of parentheses. (2 Marks)" },
+            { q: "Write a Python program to input a list of numbers and replace every negative number with 0 and every positive number with 1.", orQ: "Write a Python program to input a string and count the number of uppercase vowels in it.", ans: "<pre>L = eval(input(\"Enter list: \"))\nfor i in range(len(L)):\n    if L[i] < 0: L[i] = 0\n    elif L[i] > 0: L[i] = 1\nprint(L)</pre><strong>OR:</strong><pre>s = input(\"Enter string: \")\nc = sum(1 for ch in s if ch in 'AEIOU')\nprint(\"Uppercase vowels:\", c)</pre>(2 Marks)" },
+            { q: "What is Ransomware? How can users protect their systems against ransomware attacks?", ans: "Ransomware is malware that locks/encrypts files and demands ransom for decryption. Protection: Regular offline data backups, keeping OS/antivirus updated, avoiding suspicious email attachments. (2 Marks)" },
+            { q: "Explain the difference between <code>/</code> (True Division) and <code>//</code> (Floor Division) in Python with negative numbers.", ans: "<code>/</code> performs floating-point division (e.g., <code>-7 / 2 = -3.5</code>), whereas <code>//</code> returns the floor integer rounded towards negative infinity (e.g., <code>-7 // 2 = -4</code>). (2 Marks)" }
+        ],
+        secC: [
+            { q: "Draw a flowchart to input marks of 5 subjects, compute percentage, and display 'Distinction' (&gt;=75%), 'Pass' (&gt;=40%), or 'Fail' (&lt;40%).", ans: "Start &rarr; Input M1..M5 &rarr; Per = (M1+M2+M3+M4+M5)/5 &rarr; If Per &gt;= 75 Print Distinction &rarr; Else If Per &gt;= 40 Print Pass &rarr; Else Print Fail &rarr; Stop. (3 Marks)" },
+            { q: "Write a Python program to input a positive integer and check whether it is a <strong>Palindrome Number</strong> (e.g., 1221).", orQ: "Write a Python program to input <code>N</code> and calculate the sum of the series:<br><code>S = 1/1<sup>2</sup> + 1/2<sup>2</sup> + 1/3<sup>2</sup> + ... + 1/N<sup>2</sup></code>", ans: "<pre>n = int(input(\"Enter number: \"))\ntemp, rev = n, 0\nwhile temp > 0:\n    rev = rev * 10 + temp % 10\n    temp //= 10\nprint(\"Palindrome\" if rev == n else \"Not Palindrome\")</pre><strong>OR:</strong><pre>n = int(input(\"Enter N: \"))\nS = sum(1 / (i ** 2) for i in range(1, n + 1))\nprint(\"Sum =\", S)</pre>(3 Marks)" },
+            { q: "Find the output of:<pre>D = {1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr'}\nfor k, v in D.items():\n    if k % 2 == 1:\n        print(v.upper(), end=' ')\nprint('\\n', len(D))</pre>", ans: "Line 1 Output: <code>JAN MAR </code> (1.5 Marks)<br>Line 2 Output: <code>4</code> (1.5 Marks)" }
+        ],
+        secD: [
+            { q: "Write a Python program to input a list of integers and count how many times a user-specified target element appears using <strong>Linear Search</strong>, printing all index positions where it occurs.", ans: "<pre>L = eval(input(\"Enter list: \"))\ntarget = int(input(\"Enter target: \"))\nindices = []\nfor i in range(len(L)):\n    if L[i] == target:\n        indices.append(i)\nif indices:\n    print(\"Found at indices:\", indices)\n    print(\"Total occurrences:\", len(indices))\nelse:\n    print(\"Target not found\")</pre>(4 Marks)" },
+            { q: "Write a Python program to input a string and build a dictionary <code>WordFreq</code> containing the frequency of each word (case-insensitive). Also display the word(s) with the maximum frequency.", orQ: "Write a Python program to input a tuple of <code>N</code> integers and swap the maximum element with the minimum element (by converting to list and back to tuple).", ans: "<pre>text = input(\"Enter paragraph: \").lower()\nwords = text.split()\nWordFreq = {}\nfor w in words:\n    WordFreq[w] = WordFreq.get(w, 0) + 1\nprint(\"Frequencies:\", WordFreq)\nmax_f = max(WordFreq.values())\nfor w, f in WordFreq.items():\n    if f == max_f:\n        print(\"Most frequent word:\", w)</pre>(4 Marks)" },
+            { q: "Explain the IT Act, 2000 of India and describe any three cyber offences punishable under it.", ans: "The <strong>Information Technology Act, 2000</strong> provides legal recognition for electronic transactions, digital signatures, and defines penalties for cybercrimes in India. (1 Mark)<br>Offences: 1. Hacking / Unauthorized access to computer systems (Sec 66). 2. Identity Theft and cheating by personation using computer resources (Sec 66C/66D). 3. Cyber Terrorism and publishing obscene electronic content (Sec 66F/67). (3 Marks)" },
+            { q: "Draw the logic circuit for <code>F = (A.B)' + (B.C)'</code> using basic gates, and show how it simplifies using De Morgan's Law.", ans: "Circuit with two AND gates, two NOT gates, and one OR gate. (2 Marks)<br>Simplification: <code>(A.B)' + (B.C)' = A' + B' + B' + C' = A' + B' + C' = (A.B.C)'</code>. (2 Marks)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (String Slicing &amp; Formatting):</strong><br>An e-commerce portal generates order IDs in the format <code>OID = \"ORD-2026-8945-DEL\"</code>.<br>(i) Write a Python slice to extract the year <code>\"2026\"</code>. (1)<br>(ii) Write a Python slice to extract the city code <code>\"DEL\"</code> using negative indexing. (1)<br>(iii) Write a Python method call to split <code>OID</code> into a list of 4 components. (1)<br>(iv) Explain the difference between <code>find()</code> and <code>index()</code> string methods when a substring is not found. (2)", ans: "(i) <code>OID[4:8]</code> (1 Mark)<br>(ii) <code>OID[-3:]</code> (1 Mark)<br>(iii) <code>OID.split('-')</code> (1 Mark)<br>(iv) When the substring is absent, <code>find()</code> safely returns <code>-1</code>, whereas <code>index()</code> raises a <code>ValueError</code> exception. (2 Marks)" },
+            { q: "Write a Python program to input a list of <code>N</code> numbers and segregate them into two lists: <code>MultiplesOf5</code> and <code>Others</code>. Also print the pattern:<pre>1\n2 2\n3 3 3\n4 4 4 4</pre>", orQ: "Write a Python program to input a dictionary of <code>N</code> cities and their temperatures, then display cities with temperature &gt; 35°C and compute the median temperature using the <code>statistics</code> module.", ans: "<pre>L = eval(input(\"Enter list: \"))\nm5, others = [], []\nfor x in L:\n    if x % 5 == 0: m5.append(x)\n    else: others.append(x)\nprint(\"Multiples of 5:\", m5)\nprint(\"Others:\", others)\n\nfor i in range(1, 5):\n    print((str(i) + \" \") * i)</pre>(3 Marks segregation + 2 Marks pattern)" }
+        ]
+    },
+
+    // ========================================================================
+    // SET 7: FULL SYLLABUS MOCK PAPER 7
+    // ========================================================================
+    {
+        setNo: 7,
+        code: "083/XI/PRE-07",
+        series: "CBSE-XI-CS-SET-7",
+        secA: [
+            { q: "Which unit acts as the nervous system of the computer by fetching, decoding, and controlling instruction execution?", opts: ["ALU", "Control Unit", "Hard Disk", "RAM"], ans: "(b) Control Unit" },
+            { q: "Convert <code>(101011)<sub>2</sub></code> to Octal:", opts: ["(53)<sub>8</sub>", "(35)<sub>8</sub>", "(52)<sub>8</sub>", "(43)<sub>8</sub>"], ans: "(a) (53)<sub>8</sub> [101 = 5, 011 = 3]" },
+            { q: "What is the output of an OR gate when both inputs are 0?", opts: ["1", "0", "Undefined", "Depends on clock"], ans: "(b) 0" },
+            { q: "Which encoding standard assigns a unique code point to every character across all scripts and emojis worldwide?", opts: ["ASCII", "ISCII", "Unicode", "BCD"], ans: "(c) Unicode" },
+            { q: "Identify the output of: <code>print(25 % 7 * 2)</code>", opts: ["8", "4", "1", "6"], ans: "(a) 8 [25 % 7 = 4; 4 * 2 = 8]" },
+            { q: "Which function is used to accept user input from the keyboard in Python 3?", opts: ["raw_input()", "scan()", "input()", "read()"], ans: "(c) input()" },
+            { q: "What will <code>\"computer\".upper().isupper()</code> evaluate to?", opts: ["True", "False", "COMPUTER", "Error"], ans: "(a) True" },
+            { q: "Consider <code>L = [10, 20, 30, 40, 50]</code>. What is <code>L.index(30)</code>?", opts: ["1", "2", "3", "30"], ans: "(b) 2" },
+            { q: "Which of the following operations is NOT allowed on a Python tuple <code>T</code>?", opts: ["len(T)", "T[1:3]", "T.sort()", "max(T)"], ans: "(c) T.sort() (Tuples are immutable and do not have in-place sort())" },
+            { q: "What is the output of:<pre>d = {'a': 10, 'b': 20}\nprint(list(d.keys()))</pre>", opts: ["['a', 'b']", "[10, 20]", "[('a', 10), ('b', 20)]", "{'a', 'b'}"], ans: "(a) ['a', 'b']" },
+            { q: "What does <code>math.pow(3, 3)</code> return?", opts: ["27", "27.0", "9", "9.0"], ans: "(b) 27.0" },
+            { q: "Which function in the <code>random</code> module returns a floating-point number between 0.0 and 1.0?", opts: ["random.float()", "random.random()", "random.randint()", "random.randrange()"], ans: "(b) random.random()" },
+            { q: "Volatile memory loses its stored information when:", opts: ["A new file is saved", "The computer is restarted or powered off", "The screen saver activates", "A USB drive is ejected"], ans: "(b) The computer is restarted or powered off" },
+            { q: "Which cyber threat involves secretly recording a user's keystrokes to capture passwords?", opts: ["Keylogger (Spyware)", "Adware", "Spam", "Firewall"], ans: "(a) Keylogger (Spyware)" },
+            { q: "Using copyrighted material without permission or attribution in academic assignments is called:", opts: ["Encryption", "Plagiarism", "Phishing", "Hacking"], ans: "(b) Plagiarism" },
+            { q: "What will be the output of:<pre>for i in range(3):\n    for j in range(2):\n        print(i + j, end=' ')</pre>", opts: ["0 1 1 2 2 3", "0 1 2 3 4 5", "1 2 3 4 5 6", "0 1 0 1 0 1"], ans: "(a) 0 1 1 2 2 3" },
+            { q: "Which operator checks if two variables refer to the exact same object in memory?", opts: ["==", "in", "is", "="], ans: "(c) is" },
+            { q: "Toxic heavy metals commonly found in e-waste include:", opts: ["Iron and Copper only", "Lead, Mercury, and Cadmium", "Gold and Silver only", "Aluminium and Zinc"], ans: "(b) Lead, Mercury, and Cadmium" },
+            { isAR: true, A: "The <code>input()</code> function in Python always returns data of type <code>str</code>.", R: "To perform arithmetic operations on numeric user input, explicit type casting using <code>int()</code> or <code>float()</code> is required.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "In Binary Search, the input list must be sorted beforehand.", R: "Binary Search works by comparing the target element with the middle element and eliminating half of the remaining search space.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "A patent protects a company's brand logo and tagline.", R: "Brand logos and names are protected under Trademark law.", ans: "(d) A is false but R is true." }
+        ],
+        secB: [
+            { q: "Prove the Boolean identity <code>(A + B).(A + C) = A + B.C</code> using a truth table.", ans: "8-row truth table for A, B, C verifying LHS <code>(A+B).(A+C)</code> equals RHS <code>A + B.C</code> for all combinations ([0,0,0,1,1,1,1,1]). (2 Marks)" },
+            { q: "Convert:<br>(i) <code>(198)<sub>10</sub></code> to Binary<br>(ii) <code>(462)<sub>8</sub></code> to Hexadecimal", orQ: "Briefly explain the role of Input Unit and Output Unit in a computer system with two examples each.", ans: "(i) 128+64+4+2 = <code>(11000110)<sub>2</sub></code> (1 Mark)<br>(ii) 462<sub>8</sub> = 100 110 010<sub>2</sub> = 0001 0011 0010<sub>2</sub> = <code>(132)<sub>16</sub></code> (1 Mark)<br><strong>OR:</strong> Input Unit converts human-readable data into binary signals (Keyboard, Scanner); Output Unit converts processed binary results into human-readable form (Monitor, Printer). (2 Marks)" },
+            { q: "Predict the output of:<pre>s = \"banana\"\nprint(s.count(\"na\"))\nprint(s.rfind(\"a\"))</pre>", ans: "Line 1: <code>2</code> (1 Mark)<br>Line 2: <code>5</code> (1 Mark)" },
+            { q: "Differentiate between <code>del</code> keyword and <code>pop()</code> method in Python lists.", ans: "<code>del L[i]</code> is a statement that removes an element or slice by index without returning anything. <code>L.pop(i)</code> is a list method that removes a single element at index <code>i</code> and returns its value. (2 Marks)" },
+            { q: "Write a Python program to input a list of numbers and print the difference between the largest and smallest elements without using <code>max()</code> or <code>min()</code>.", orQ: "Write a Python program to input a string and print every alternate character in uppercase.", ans: "<pre>L = eval(input(\"Enter list: \"))\nmx = mn = L[0]\nfor x in L:\n    if x > mx: mx = x\n    if x < mn: mn = x\nprint(\"Range:\", mx - mn)</pre><strong>OR:</strong><pre>s = input(\"Enter string: \")\nprint(s[::2].upper())</pre>(2 Marks)" },
+            { q: "What is Eavesdropping? State two ways to prevent eavesdropping on public Wi-Fi networks.", ans: "Eavesdropping is unauthorized interception of network packets. Prevention: 1. Use VPN (Virtual Private Network) for encrypted tunneling. 2. Access only HTTPS-secured websites. (2 Marks)" },
+            { q: "Explain the difference between Syntax Error and Logical Error with an example of each.", ans: "<strong>Syntax Error:</strong> Violation of Python grammar rules preventing execution (e.g., missing colon <code>if x > 5</code>).<br><strong>Logical Error:</strong> Program runs without crashing but yields wrong output due to flawed logic (e.g., <code>avg = a + b / 2</code> instead of <code>(a + b) / 2</code>). (2 Marks)" }
+        ],
+        secC: [
+            { q: "Write pseudocode to input <code>N</code> numbers and find the average of all even numbers entered.", ans: "<code>BEGIN<br>INPUT N<br>SET sum = 0, count = 0<br>FOR i = 1 TO N DO<br>  INPUT num<br>  IF num MOD 2 == 0 THEN<br>    sum = sum + num<br>    count = count + 1<br>  ENDIF<br>ENDFOR<br>IF count > 0 THEN PRINT sum / count ELSE PRINT 'No even numbers'<br>END</code> (3 Marks)" },
+            { q: "Write a Python program to input a string and count the number of words starting with a vowel (a, e, i, o, u - case-insensitive).", orQ: "Write a Python program to input <code>x</code> and <code>n</code> and find the sum of:<br><code>S = 1 + x/1! + x<sup>2</sup>/2! + x<sup>3</sup>/3! + ... + x<sup>n</sup>/n!</code>", ans: "<pre>s = input(\"Enter sentence: \")\ncount = 0\nfor w in s.split():\n    if w[0].lower() in 'aeiou':\n        count += 1\nprint(\"Words starting with vowel:\", count)</pre><strong>OR:</strong><pre>import math\nx = float(input(\"Enter x: \"))\nn = int(input(\"Enter n: \"))\nS = sum((x ** i) / math.factorial(i) for i in range(n + 1))\nprint(\"Sum =\", S)</pre>(3 Marks)" },
+            { q: "Trace the output of:<pre>T = (5, 10, 15, 20)\nL = list(T)\nfor i in range(len(L)):\n    L[i] = L[i] * 2\nT = tuple(L)\nprint(T[1:-1])</pre>", ans: "L becomes <code>[10, 20, 30, 40]</code> &rarr; T becomes <code>(10, 20, 30, 40)</code>.<br>Output of <code>T[1:-1]</code>: <code>(20, 30)</code> (3 Marks)" }
+        ],
+        secD: [
+            { q: "Write a Python program to input a dictionary <code>Books</code> where keys are Book IDs and values are lists <code>[Title, Author, Price]</code>. Write code to:<br>(i) Input <code>N</code> books.<br>(ii) Display all books written by a specific author entered by the user.<br>(iii) Calculate the total value of all books in the dictionary.", ans: "<pre>Books = {}\nn = int(input(\"Enter N: \"))\nfor _ in range(n):\n    bid = input(\"Book ID: \")\n    Books[bid] = [input(\"Title: \"), input(\"Author: \"), float(input(\"Price: \"))]\n\nsearch_auth = input(\"Search Author: \").lower()\ntotal_price = 0\nfor bid, info in Books.items():\n    total_price += info[2]\n    if info[1].lower() == search_auth:\n        print(bid, info[0], info[2])\nprint(\"Total Inventory Value:\", total_price)</pre>(4 Marks)" },
+            { q: "Write a Python program to input a list of integers and rearrange it so that all even numbers appear before all odd numbers.", orQ: "Write a Python program to input a string and find the longest substring without spaces, as well as the total count of digits and special characters.", ans: "<pre>L = eval(input(\"Enter list: \"))\nevens = [x for x in L if x % 2 == 0]\nodds = [x for x in L if x % 2 != 0]\nL = evens + odds\nprint(\"Rearranged List:\", L)</pre>(4 Marks)" },
+            { q: "Explain four essential Netiquettes that every responsible internet user should follow while communicating via emails and social media.", ans: "1. <strong>Respect Privacy:</strong> Never share personal photos, contact numbers, or private chats of others without consent. (1 Mark)<br>2. <strong>Polite &amp; Clear Tone:</strong> Avoid offensive language, trolling, and typing in ALL CAPS (which signifies shouting). (1 Mark)<br>3. <strong>Verify Before Forwarding:</strong> Fact-check news and links to prevent spreading misinformation or spam. (1 Mark)<br>4. <strong>Credit Intellectual Property:</strong> Always cite authors/sources when sharing articles, images, or code. (1 Mark)" },
+            { q: "Draw the logic gate circuit for <code>F = A.B' + A'.B + C</code> and construct its complete truth table.", ans: "Circuit with 2 NOT gates (A', B'), 2 AND gates (A.B', A'.B), and 1 OR gate combining both AND outputs with C. (2 Marks)<br>Truth table for 8 combinations (000 to 111): F = [0, 1, 1, 1, 1, 1, 0, 1]. (2 Marks)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (Nested Lists &amp; Matrix Operations):</strong><br>A 3×3 matrix is represented in Python as a nested list:<br><code>M = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]</code><br>(i) Write an expression to access the center element <code>5</code>. (1)<br>(ii) Write a loop to compute the sum of primary diagonal elements (1 + 5 + 9). (2)<br>(iii) Write a loop to print the transpose of matrix <code>M</code>. (2)", ans: "(i) <code>M[1][1]</code> (1 Mark)<br>(ii)<pre>diag_sum = sum(M[i][i] for i in range(3))\nprint(diag_sum)</pre>(2 Marks)<br>(iii)<pre>for j in range(3):\n    for i in range(3):\n        print(M[i][j], end=' ')\n    print()</pre>(2 Marks)" },
+            { q: "Write a Python program to input a list of integers and sort them in descending order using <strong>Bubble Sort</strong>, and also print the following pattern:<pre>E D C B A\nD C B A\nC B A\nB A\nA</pre>", orQ: "Write a Python program to input a positive integer <code>N</code> and check if it is a <strong>Harshad (Niven) Number</strong> (divisible by the sum of its digits), and generate 5 unique random integers between 10 and 50 using <code>random.sample()</code>.", ans: "<pre>L = eval(input(\"Enter list: \"))\nn = len(L)\nfor i in range(n - 1):\n    for j in range(n - 1 - i):\n        if L[j] < L[j + 1]:\n            L[j], L[j + 1] = L[j + 1], L[j]\nprint(\"Descending List:\", L)\n\nfor i in range(5, 0, -1):\n    for j in range(i - 1, -1, -1):\n        print(chr(65 + j), end=\" \")\n    print()</pre>(3 Marks Bubble Sort + 2 Marks Pattern)" }
+        ]
+    },
+
+    // ========================================================================
+    // SET 8: FULL SYLLABUS MOCK PAPER 8
+    // ========================================================================
+    {
+        setNo: 8,
+        code: "083/XI/PRE-08",
+        series: "CBSE-XI-CS-SET-8",
+        secA: [
+            { q: "Which component stores the address of the next instruction to be fetched from memory?", opts: ["Instruction Register", "Program Counter (PC)", "ALU", "Cache"], ans: "(b) Program Counter (PC)" },
+            { q: "What is the binary equivalent of <code>(2C)<sub>16</sub></code>?", opts: ["(00101100)<sub>2</sub>", "(00101010)<sub>2</sub>", "(00111100)<sub>2</sub>", "(01001100)<sub>2</sub>"], ans: "(a) (00101100)<sub>2</sub> [2=0010, C(12)=1100]" },
+            { q: "The dual of the Boolean expression <code>A + 0 = A</code> is:", opts: ["A . 1 = A", "A + 1 = 1", "A . 0 = 0", "A' + 1 = 1"], ans: "(a) A . 1 = A (Replace + with . and 0 with 1)" },
+            { q: "Which software acts as an interface between computer hardware and the user?", opts: ["Compiler", "Operating System", "Antivirus", "Browser"], ans: "(b) Operating System" },
+            { q: "What is the output of <code>print(3 * 'ab' + 'c')</code>?", opts: ["abababc", "abcabcabc", "TypeError", "3abc"], ans: "(a) abababc" },
+            { q: "Which of the following is NOT a valid Python data type?", opts: ["int", "float", "char", "bool"], ans: "(c) char (Single characters in Python have type str)" },
+            { q: "Find the output of:<pre>s = \"HELLO\"\nprint(s.lower().replace('l', 'x', 1))</pre>", opts: ["hexlo", "hexxo", "heLlo", "HELLO"], ans: "(a) hexlo" },
+            { q: "What will <code>[1, 2, 3] + [4, 5]</code> evaluate to?", opts: ["[5, 7, 3]", "[1, 2, 3, 4, 5]", "[[1, 2, 3], [4, 5]]", "TypeError"], ans: "(b) [1, 2, 3, 4, 5]" },
+            { q: "What is the output of:<pre>T = (1, 2, 3)\na, b, c = T\nprint(a + c)</pre>", opts: ["3", "4", "5", "ValueError"], ans: "(b) 4 (Tuple unpacking: a=1, b=2, c=3)" },
+            { q: "Which dictionary method removes the item with the specified key and returns its value?", opts: ["delete()", "remove()", "pop()", "discard()"], ans: "(c) pop()" },
+            { q: "What will <code>math.sin(0) + math.cos(0)</code> evaluate to?", opts: ["0.0", "1.0", "2.0", "1"], ans: "(b) 1.0 (0.0 + 1.0 = 1.0)" },
+            { q: "Which function in the <code>statistics</code> module calculates the arithmetic average?", opts: ["avg()", "mean()", "median()", "mode()"], ans: "(b) mean()" },
+            { q: "1 Gigabyte (GB) is equal to:", opts: ["1024 Megabytes", "1024 Kilobytes", "1024 Terabytes", "1000 Bytes"], ans: "(a) 1024 Megabytes" },
+            { q: "A self-replicating malware that spreads across networks without needing a host file is called a:", opts: ["Trojan", "Worm", "Adware", "Cookie"], ans: "(b) Worm" },
+            { q: "Which license allows users to freely use, modify, and distribute software with minimal restrictions (permissive license)?", opts: ["MIT License", "Proprietary EULA", "Copyright All Rights Reserved", "Patent"], ans: "(a) MIT License" },
+            { q: "What is the output of:<pre>n = 123\ns = 0\nwhile n > 0:\n    s += n % 10\n    n //= 10\nprint(s)</pre>", opts: ["123", "6", "321", "0"], ans: "(b) 6" },
+            { q: "Which method checks whether all characters in a string are whitespace?", opts: ["isblank()", "isspace()", "isempty()", "isnone()"], ans: "(b) isspace()" },
+            { q: "What does URL stand for?", opts: ["Uniform Resource Locator", "Universal Reference Link", "Uniform Retrieval Language", "Unified Resource Link"], ans: "(a) Uniform Resource Locator" },
+            { isAR: true, A: "In Python, negative indexing allows accessing sequence elements from the end.", R: "Index <code>-1</code> refers to the last element of a string, list, or tuple.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "A NAND gate is equivalent to an AND gate followed by a NOT gate.", R: "A NAND gate outputs 0 only when at least one input is 0.", ans: "(c) A is true but R is false. (NAND outputs 0 only when ALL inputs are 1)." },
+            { isAR: true, A: "Regularly updating software and operating systems helps patch security vulnerabilities.", R: "Cyber attackers often exploit unpatched software bugs to gain unauthorized access.", ans: "(a) Both A and R are true and R is the correct explanation of A." }
+        ],
+        secB: [
+            { q: "Prove the Boolean identity <code>A.(A' + B) = A.B</code> algebraically and using a truth table.", ans: "Algebraic: <code>A.A' + A.B = 0 + A.B = A.B</code> (1 Mark). Truth table for A, B (00, 01, 10, 11) confirming LHS = RHS = [0, 0, 0, 1]. (1 Mark)" },
+            { q: "Convert:<br>(i) <code>(1110011)<sub>2</sub></code> to Decimal<br>(ii) <code>(89)<sub>10</sub></code> to Octal", orQ: "Differentiate between Cold Booting and Warm Booting.", ans: "(i) 64+32+16+2+1 = <code>(115)<sub>10</sub></code> (1 Mark)<br>(ii) 89 = 1×64 + 3×8 + 1 = <code>(131)<sub>8</sub></code> (1 Mark)<br><strong>OR:</strong> Cold booting starts a computer from a completely powered-off state (runs full POST); Warm booting restarts an already running OS without cutting power. (2 Marks)" },
+            { q: "Predict the output of:<pre>L = ['P', 'Y', 'T', 'H', 'O', 'N']\nprint(''.join(L[1:5]))\nprint(L[::-3])</pre>", ans: "Line 1: <code>YTHO</code> (1 Mark)<br>Line 2: <code>['N', 'T']</code> (1 Mark)" },
+            { q: "Find and fix the errors in the following Python code:<pre>D = {'A': 1, 'B': 2}\nfor k, v in D:\n    print(k, v)\nprint(D['C'])</pre>", ans: "Fixes: Use <code>D.items()</code> to unpack key and value in loop; use <code>D.get('C')</code> to avoid <code>KeyError</code>. (2 Marks)" },
+            { q: "Write a Python program to input a list of integers and print all elements that are strictly greater than their immediate neighbors.", orQ: "Write a Python program to input a string and check if it contains at least one uppercase letter and one digit.", ans: "<pre>L = eval(input(\"Enter list: \"))\nfor i in range(1, len(L) - 1):\n    if L[i] > L[i-1] and L[i] > L[i+1]:\n        print(L[i], end=' ')</pre><strong>OR:</strong><pre>s = input(\"Enter string: \")\nhas_u = any(c.isupper() for c in s)\nhas_d = any(c.isdigit() for c in s)\nprint(has_u and has_d)</pre>(2 Marks)" },
+            { q: "What is Digital Divide? Mention two factors contributing to it.", ans: "Digital Divide refers to the socioeconomic and geographical gap between individuals/regions that have access to modern ICT/internet and those that do not. Factors: Income inequality, lack of rural telecom infrastructure, digital literacy gaps. (2 Marks)" },
+            { q: "Explain the difference between <code>==</code> and <code>!=</code> operators and how chaining of comparison operators works in Python (e.g., <code>10 < x <= 20</code>).", ans: "<code>==</code> checks equality while <code>!=</code> checks inequality. Chained comparisons like <code>10 < x <= 20</code> are evaluated as <code>(10 < x) and (x <= 20)</code>, improving readability and evaluating <code>x</code> once. (2 Marks)" }
+        ],
+        secC: [
+            { q: "Draw a flowchart to input a positive integer <code>N</code> and print all its factors.", ans: "Start &rarr; Input N &rarr; i = 1 &rarr; Diamond (Is i &lt;= N?) &rarr; Yes: Diamond (Is N % i == 0?) &rarr; Yes: Print i &rarr; Increment i = i + 1 (loop back) &rarr; No: Stop. (3 Marks)" },
+            { q: "Write a Python program to input a string and count the frequency of vowels, consonants, digits, and spaces using a dictionary.", orQ: "Write a Python program to input <code>x</code> and <code>n</code> and find the sum of:<br><code>S = x - x<sup>3</sup>/3! + x<sup>5</sup>/5! - x<sup>7</sup>/7! + ... up to n terms</code>", ans: "<pre>s = input(\"Enter string: \").lower()\nres = {'vowels': 0, 'consonants': 0, 'digits': 0, 'spaces': 0}\nfor ch in s:\n    if ch in 'aeiou': res['vowels'] += 1\n    elif ch.isalpha(): res['consonants'] += 1\n    elif ch.isdigit(): res['digits'] += 1\n    elif ch == ' ': res['spaces'] += 1\nprint(res)</pre><strong>OR:</strong><pre>import math\nx = float(input(\"Enter x: \"))\nn = int(input(\"Enter n: \"))\nS = sum(((-1)**i) * (x**(2*i+1)) / math.factorial(2*i+1) for i in range(n))\nprint(\"Sum =\", S)</pre>(3 Marks)" },
+            { q: "Trace the output of:<pre>L = [12, 7, 19, 4, 15]\nL.remove(7)\nL.insert(1, 25)\nprint(sorted(L))\nprint(L)</pre>", ans: "After remove &amp; insert: <code>[12, 25, 19, 4, 15]</code><br>Line 1 Output: <code>[4, 12, 15, 19, 25]</code> (1.5 Marks)<br>Line 2 Output: <code>[12, 25, 19, 4, 15]</code> (1.5 Marks)" }
+        ],
+        secD: [
+            { q: "Write a Python program to input a list of <code>N</code> integers and sort them using <strong>Selection Sort</strong>, displaying the total number of swaps performed.", ans: "<pre>L = eval(input(\"Enter list: \"))\nn = len(L)\nswaps = 0\nfor i in range(n - 1):\n    min_i = i\n    for j in range(i + 1, n):\n        if L[j] < L[min_i]:\n            min_i = j\n    if min_i != i:\n        L[i], L[min_i] = L[min_i], L[i]\n        swaps += 1\nprint(\"Sorted:\", L, \"Total swaps:\", swaps)</pre>(4 Marks)" },
+            { q: "Write a Python program to maintain a telephone directory in a dictionary <code>PhoneBook = {Name: PhoneNumber}</code>. Provide options to:<br>1. Add/Update a contact.<br>2. Delete a contact by name.<br>3. Search contact name by phone number (reverse lookup).<br>4. Display all contacts sorted alphabetically by name.", orQ: "Write a Python program to input a tuple of strings and create a new tuple containing only those strings whose length is a prime number.", ans: "<pre>PhoneBook = {}\nwhile True:\n    ch = int(input(\"1.Add/Upd 2.Del 3.SearchNum 4.Show 5.Exit: \"))\n    if ch == 1:\n        PhoneBook[input(\"Name: \")] = input(\"Phone: \")\n    elif ch == 2:\n        PhoneBook.pop(input(\"Name to delete: \"), None)\n    elif ch == 3:\n        num = input(\"Enter Phone: \")\n        for k, v in PhoneBook.items():\n            if v == num: print(\"Owner:\", k)\n    elif ch == 4:\n        for k in sorted(PhoneBook):\n            print(k, \":\", PhoneBook[k])\n    elif ch == 5:\n        break</pre>(4 Marks)" },
+            { q: "Explain the following cyber safety and intellectual property concepts:<br>(i) Two-Factor Authentication (2FA)<br>(ii) Open-Source vs Proprietary Software<br>(iii) Digital Signature<br>(iv) Spyware", ans: "(i) <strong>2FA:</strong> Security layer requiring two independent credentials (e.g., password + OTP/biometric) to log in. (1 Mark)<br>(ii) <strong>Open-Source vs Proprietary:</strong> Open-source grants source code access and modification rights; Proprietary restricts source code and redistribution via paid licenses. (1 Mark)<br>(iii) <strong>Digital Signature:</strong> Cryptographic mechanism verifying authenticity and integrity of digital documents/messages. (1 Mark)<br>(iv) <strong>Spyware:</strong> Malware secretly gathering user activity, keystrokes, or browsing data without consent. (1 Mark)" },
+            { q: "Draw the logic circuit for <code>F = (X + Y).(X' + Z).(Y + Z')</code> and construct its truth table.", ans: "Circuit with 2 NOT gates (X', Z'), 3 OR gates, and 1 three-input AND gate. (2 Marks)<br>Truth table for 8 rows (000 to 111): F = [0, 0, 1, 0, 1, 0, 1, 1]. (2 Marks)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (Tuple &amp; Student Score Analytics):</strong><br>Scores of 6 participants in a coding contest are stored in a tuple: <code>Scores = (88, 92, 75, 92, 81, 95)</code>.<br>(i) Write a Python statement to find the highest and lowest scores. (1)<br>(ii) Write a statement to find the rank (1-based position) of score <code>88</code> if sorted in descending order. (1)<br>(iii) Write a statement to count how many participants scored above 85. (1)<br>(iv) Explain why <code>Scores += (90,)</code> works even though tuples are immutable. (2)", ans: "(i) <code>print(max(Scores), min(Scores))</code> (1 Mark)<br>(ii) <code>print(sorted(Scores, reverse=True).index(88) + 1)</code> (1 Mark)<br>(iii) <code>print(sum(1 for s in Scores if s > 85))</code> (1 Mark)<br>(iv) <code>Scores += (90,)</code> does not modify the existing tuple in place; instead, it creates a brand-new tuple object containing the concatenated elements and rebinds the variable name <code>Scores</code> to it. (2 Marks)" },
+            { q: "Write a Python program to input a positive integer <code>N</code> and print the diamond/hollow pattern below, and also write a function/block to check if two input strings are <strong>Anagrams</strong> of each other:<pre>1 2 3 4 5\n1       5\n1       5\n1 2 3 4 5</pre>", orQ: "Write a Python program to input a list of integers and find all pairs of elements whose sum equals a given target value <code>K</code>.", ans: "<pre>for i in range(1, 5):\n    for j in range(1, 6):\n        if i == 1 or i == 4 or j == 1 or j == 5:\n            print(j, end=\" \")\n        else:\n            print(\" \", end=\" \")\n    print()\n\ns1 = input(\"Str 1: \").replace(\" \", \"\").lower()\ns2 = input(\"Str 2: \").replace(\" \", \"\").lower()\nprint(\"Anagrams\" if sorted(s1) == sorted(s2) else \"Not Anagrams\")</pre>(2.5 Marks Hollow Pattern + 2.5 Marks Anagram Check)" }
+        ]
+    },
+
+    // ========================================================================
+    // SET 9: FULL SYLLABUS MOCK PAPER 9
+    // ========================================================================
+    {
+        setNo: 9,
+        code: "083/XI/PRE-09",
+        series: "CBSE-XI-CS-SET-9",
+        secA: [
+            { q: "Which type of memory is used to bridge the speed gap between the high-speed CPU and slower Main Memory?", opts: ["ROM", "Cache Memory", "Flash Memory", "Magnetic Tape"], ans: "(b) Cache Memory" },
+            { q: "Convert <code>(377)<sub>8</sub></code> into Decimal:", opts: ["(255)<sub>10</sub>", "(256)<sub>10</sub>", "(247)<sub>10</sub>", "(251)<sub>10</sub>"], ans: "(a) (255)<sub>10</sub> [3×64 + 7×8 + 7 = 192 + 56 + 7 = 255]" },
+            { q: "Which Boolean law states that <code>A + B = B + A</code> and <code>A . B = B . A</code>?", opts: ["Associative Law", "Distributive Law", "Commutative Law", "Idempotent Law"], ans: "(c) Commutative Law" },
+            { q: "Which encoding scheme uses 8 bits to represent Indian script characters alongside ASCII?", opts: ["UTF-8", "ISCII", "Unicode", "ASCII-7"], ans: "(b) ISCII" },
+            { q: "What will be the output of <code>print(10 // 3, -10 // 3)</code>?", opts: ["3 -3", "3 -4", "4 -4", "3.33 -3.33"], ans: "(b) 3 -4" },
+            { q: "Which operator is used for floor division in Python?", opts: ["/", "%", "//", "**"], ans: "(c) //" },
+            { q: "Find the output of:<pre>s = \"DataScience\"\nprint(s[4:7], s[-7:])</pre>", opts: ["Sci Science", "Sci ence", "aSc Science", "Sci DataSci"], ans: "(a) Sci Science" },
+            { q: "What is the output of:<pre>L = [1, 2, 3, 4]\nL.insert(-1, 99)\nprint(L)</pre>", opts: ["[1, 2, 3, 4, 99]", "[1, 2, 3, 99, 4]", "[99, 1, 2, 3, 4]", "[1, 2, 99, 3, 4]"], ans: "(b) [1, 2, 3, 99, 4] (Inserts before the element currently at index -1)" },
+            { q: "Which of the following creates an empty tuple?", opts: ["T = ()", "T = tuple()", "Both (a) and (b)", "T = {}"], ans: "(c) Both (a) and (b)" },
+            { q: "What is the output of:<pre>d = {'x': 1, 'y': 2}\nd['x'] = d.get('z', 5)\nprint(d)</pre>", opts: ["{'x': 5, 'y': 2}", "{'x': 1, 'y': 2, 'z': 5}", "{'x': None, 'y': 2}", "KeyError"], ans: "(a) {'x': 5, 'y': 2}" },
+            { q: "What will <code>math.floor(4.9) + math.ceil(4.1)</code> evaluate to?", opts: ["8", "9", "10", "9.0"], ans: "(b) 9 (4 + 5 = 9)" },
+            { q: "Which function in the <code>random</code> module returns a list of <code>k</code> unique random elements from a population?", opts: ["random.choice()", "random.sample()", "random.shuffle()", "random.randint()"], ans: "(b) random.sample()" },
+            { q: "An Operating System that allows multiple users to access the computer system simultaneously is called:", opts: ["Single-user OS", "Multi-user OS", "Batch OS", "Embedded OS"], ans: "(b) Multi-user OS" },
+            { q: "Fraudulently acquiring sensitive information by masquerading as a trustworthy entity in electronic communication is:", opts: ["Phishing", "Plagiarism", "Spamming", "Copyright"], ans: "(a) Phishing" },
+            { q: "Which of the following is NOT an intellectual property right?", opts: ["Patent", "Trademark", "Copyright", "Firewall"], ans: "(d) Firewall" },
+            { q: "What is the output of:<pre>x = 1\nwhile x < 10:\n    x *= 2\nprint(x)</pre>", opts: ["8", "10", "16", "32"], ans: "(c) 16 (1 -> 2 -> 4 -> 8 -> 16)" },
+            { q: "Which string method returns <code>True</code> if all cased characters in the string are lowercase?", opts: ["islower()", "lower()", "ismin()", "checklower()"], ans: "(a) islower()" },
+            { q: "The unique trail of data left behind by every online interaction of a user is called:", opts: ["Digital Signature", "Digital Footprint", "Digital Certificate", "Cyber Crime"], ans: "(b) Digital Footprint" },
+            { isAR: true, A: "The <code>clear()</code> method empties a list while keeping its object identity intact.", R: "Assigning <code>L = []</code> creates a new empty list object and rebinds the variable reference.", ans: "(b) Both A and R are true, but R is not the correct explanation of A." },
+            { isAR: true, A: "Hexadecimal numbers are widely used in computing as a compact representation of binary values.", R: "Each hexadecimal digit corresponds exactly to a group of 4 binary bits (nibble).", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "E-waste recycling helps recover valuable materials like gold, copper, and silver.", R: "Improper burning of e-waste releases carcinogenic dioxins and toxic fumes.", ans: "(b) Both A and R are true, but R is not the correct explanation of A." }
+        ],
+        secB: [
+            { q: "Construct a truth table for the Boolean function <code>F(X, Y, Z) = X.Y + Y'.Z</code>.", ans: "8-row truth table for X, Y, Z: F = [0, 1, 0, 0, 0, 1, 1, 1]. (2 Marks)" },
+            { q: "Convert:<br>(i) <code>(4B)<sub>16</sub></code> to Octal<br>(ii) <code>(110101)<sub>2</sub></code> to Decimal", orQ: "What is a Language Translator? Name its three types.", ans: "(i) 4B<sub>16</sub> = 0100 1011<sub>2</sub> = 001 001 011<sub>2</sub> = <code>(113)<sub>8</sub></code> (1 Mark)<br>(ii) 32+16+4+1 = <code>(53)<sub>10</sub></code> (1 Mark)<br><strong>OR:</strong> Software converting source code into machine code. Types: Assembler, Compiler, Interpreter. (2 Marks)" },
+            { q: "Predict the output of:<pre>s = \"Mississippi\"\nprint(s.count('s', 3, 8))\nprint(s.find('iss'))</pre>", ans: "Line 1: <code>2</code> (indices 3..7 is 'sissi' -> 2 's's) (1 Mark)<br>Line 2: <code>1</code> (1 Mark)" },
+            { q: "Rewrite the following Python code after removing all errors:<pre>L = [10, 20, 30]\nfor i in range(len(L)):\n    if L[i] == 20\n        L.del(i)\nprint(L)</pre>", ans: "Fixes: Colon after <code>if L[i] == 20:</code>; replace invalid <code>L.del(i)</code> with <code>del L[i]</code> or <code>L.pop(i)</code>. (2 Marks)" },
+            { q: "Write a Python program to input a list of integers and count how many elements are prime numbers.", orQ: "Write a Python program to input a string and reverse each word individually while maintaining word order (e.g., <code>\"Hello World\"</code> &rarr; <code>\"olleH dlroW\"</code>).", ans: "<pre>L = eval(input(\"Enter list: \"))\nc = 0\nfor n in L:\n    if n > 1 and all(n % i != 0 for i in range(2, int(n**0.5)+1)):\n        c += 1\nprint(\"Primes:\", c)</pre><strong>OR:</strong><pre>s = input(\"Enter string: \")\nprint(\" \".join(w[::-1] for w in s.split()))</pre>(2 Marks)" },
+            { q: "Differentiate between Copyright and Patent.", ans: "<strong>Copyright</strong> protects original creative/literary/artistic expressions and software code automatically upon creation. <strong>Patent</strong> grants exclusive commercial rights for a novel technical invention or process upon formal registration. (2 Marks)" },
+            { q: "Explain the difference between <code>keys()</code>, <code>values()</code>, and <code>items()</code> methods of a Python dictionary.", ans: "<code>keys()</code> returns a view of all keys; <code>values()</code> returns a view of all values; <code>items()</code> returns a view of <code>(key, value)</code> tuples. (2 Marks)" }
+        ],
+        secC: [
+            { q: "Draw a flowchart to input two numbers and find their Greatest Common Divisor (GCD) using Euclid's subtraction or remainder method.", ans: "Start &rarr; Input A, B &rarr; Diamond (Is B != 0?) &rarr; Yes: R = A % B, A = B, B = R (loop back) &rarr; No: Print A &rarr; Stop. (3 Marks)" },
+            { q: "Write a Python program to input a positive integer <code>N</code> and check whether it is a <strong>Neon Number</strong> (sum of digits of square of the number equals the number itself, e.g., 9 &rarr; 9<sup>2</sup> = 81 &rarr; 8 + 1 = 9).", orQ: "Write a Python program to input <code>x</code> and <code>n</code> and find the sum of:<br><code>S = 1 + x<sup>2</sup>/3 + x<sup>4</sup>/5 + x<sup>6</sup>/7 + ... up to n terms</code>", ans: "<pre>n = int(input(\"Enter number: \"))\nsq = n * n\ns = sum(int(d) for d in str(sq))\nprint(\"Neon Number\" if s == n else \"Not Neon\")</pre><strong>OR:</strong><pre>x = float(input(\"Enter x: \"))\nn = int(input(\"Enter n: \"))\nS = sum((x ** (2 * i)) / (2 * i + 1) for i in range(n))\nprint(\"Sum =\", S)</pre>(3 Marks)" },
+            { q: "Trace the output of:<pre>D = {'P': 100, 'Q': 200, 'R': 300}\nS = 0\nfor k in D:\n    if k in 'PR':\n        S += D[k]\nprint(S)\nprint(sorted(D.values(), reverse=True))</pre>", ans: "Line 1 Output: <code>400</code> (100 + 300) (1.5 Marks)<br>Line 2 Output: <code>[300, 200, 100]</code> (1.5 Marks)" }
+        ],
+        secD: [
+            { q: "Write a Python program to input a list of <code>N</code> integers and perform <strong>Binary Search</strong>. If found, print the index; if not found, insert the element at its appropriate sorted position and print the updated list.", ans: "<pre>L = eval(input(\"Enter sorted list: \"))\nkey = int(input(\"Enter target: \"))\nlow, high = 0, len(L) - 1\nfound = -1\nwhile low <= high:\n    mid = (low + high) // 2\n    if L[mid] == key:\n        found = mid\n        break\n    elif L[mid] < key:\n        low = mid + 1\n    else:\n        high = mid - 1\nif found != -1:\n    print(\"Found at index:\", found)\nelse:\n    L.insert(low, key)\n    print(\"Not found. Inserted at index\", low, \"->\", L)</pre>(4 Marks)" },
+            { q: "Write a Python program to create a dictionary <code>Sales</code> storing Salesperson IDs as keys and a list of quarterly sales <code>[Q1, Q2, Q3, Q4]</code> as values. Compute and display:<br>(i) Annual sales for each salesperson.<br>(ii) Quarter-wise total sales across all salespeople.<br>(iii) Salesperson ID with highest annual sales.", orQ: "Write a Python program to input a string and find the frequency of each digit (0–9) present in it, and display all digits that did NOT appear in the string.", ans: "<pre>Sales = {}\nn = int(input(\"Enter N: \"))\nfor _ in range(n):\n    sid = input(\"Salesperson ID: \")\n    Sales[sid] = [float(input(f\"Q{i}: \")) for i in range(1, 5)]\n\nq_tot = [0, 0, 0, 0]\ntop_id, max_s = None, -1\nfor sid, q in Sales.items():\n    ann = sum(q)\n    print(sid, \"Annual Sales:\", ann)\n    if ann > max_s:\n        max_s, top_id = ann, sid\n    for i in range(4):\n        q_tot[i] += q[i]\nprint(\"Quarter totals:\", q_tot)\nprint(\"Top Performer:\", top_id)</pre>(4 Marks)" },
+            { q: "Explain four major types of Cyber Crimes and suggest one preventive measure against each.", ans: "1. <strong>Phishing:</strong> Fake communications stealing credentials. Prevention: Verify sender URLs and avoid clicking unknown links. (1 Mark)<br>2. <strong>Ransomware:</strong> Encrypting victim files for ransom. Prevention: Maintain regular offline backups. (1 Mark)<br>3. <strong>Identity Theft:</strong> Misusing stolen personal ID/financial info. Prevention: Enable 2FA and safeguard sensitive documents. (1 Mark)<br>4. <strong>Cyber Stalking/Bullying:</strong> Online harassment/tracking. Prevention: Strict privacy settings and reporting abusers. (1 Mark)" },
+            { q: "Draw the logic circuit for <code>F = (A' + B).(B' + C).(A + C')</code> and verify its output for <code>A=1, B=0, C=1</code>.", ans: "Circuit with 3 NOT gates (A', B', C'), 3 OR gates, and 1 three-input AND gate. (2 Marks)<br>For A=1, B=0, C=1: <code>(0 + 0).(1 + 1).(1 + 0) = 0 . 1 . 1 = 0</code>. (2 Marks)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (Python Modules — math, random, statistics):</strong><br>A teacher uses a Python script to analyze test scores <code>Marks = [72, 85, 90, 85, 68, 94, 78]</code> and pick random viva candidates.<br>(i) Write a Python statement to compute the median and mode of <code>Marks</code>. (1)<br>(ii) Write a statement to randomly select 2 distinct scores from <code>Marks</code>. (1)<br>(iii) Write a statement using <code>math</code> module to compute the square root of the highest mark rounded up to the nearest integer. (1)<br>(iv) Explain why importing specific functions (<code>from math import sqrt</code>) can be advantageous, and mention one potential naming conflict risk. (2)", ans: "(i) <code>import statistics; print(statistics.median(Marks), statistics.mode(Marks))</code> (1 Mark)<br>(ii) <code>import random; print(random.sample(Marks, 2))</code> (1 Mark)<br>(iii) <code>import math; print(math.ceil(math.sqrt(max(Marks))))</code> (1 Mark)<br>(iv) Selective import avoids prefixing the module name repeatedly, improving brevity; however, if the local program defines a variable or function with the exact same name (e.g., <code>sqrt = 5</code>), it overwrites/shadows the imported function. (2 Marks)" },
+            { q: "Write a Python program to input a list of integers and shift all negative numbers to the left and positive numbers to the right without changing their relative order. Also print the pattern:<pre>        *\n      * *\n    * * *\n  * * * *\n* * * * *</pre>", orQ: "Write a Python program to input a sentence and find:<br>(i) All words having both vowels and digits.<br>(ii) Replace every space with a hyphen and convert alternate words to uppercase.", ans: "<pre>L = eval(input(\"Enter list: \"))\nres = [x for x in L if x < 0] + [x for x in L if x >= 0]\nprint(\"Shifted List:\", res)\n\nfor i in range(1, 6):\n    print(\"  \" * (5 - i) + \"* \" * i)</pre>(3 Marks List Shift + 2 Marks Right-Aligned Pattern)" }
+        ]
+    },
+
+    // ========================================================================
+    // SET 10: FULL SYLLABUS MOCK PAPER 10
+    // ========================================================================
+    {
+        setNo: 10,
+        code: "083/XI/PRE-10",
+        series: "CBSE-XI-CS-SET-10",
+        secA: [
+            { q: "Which unit of a computer is responsible for fetching instructions from main memory and decoding them?", opts: ["ALU", "Control Unit", "Output Unit", "Secondary Storage"], ans: "(b) Control Unit" },
+            { q: "Convert <code>(11110011)<sub>2</sub></code> to Hexadecimal:", opts: ["(F3)<sub>16</sub>", "(E3)<sub>16</sub>", "(F5)<sub>16</sub>", "(D3)<sub>16</sub>"], ans: "(a) (F3)<sub>16</sub> [1111 = F, 0011 = 3]" },
+            { q: "Which Boolean identity represents the Involution Law?", opts: ["A + A = A", "(A')' = A", "A . 1 = A", "A + A' = 1"], ans: "(b) (A')' = A" },
+            { q: "Which of the following is NOT an Operating System?", opts: ["Ubuntu Linux", "macOS", "Oracle SQL", "Windows 11"], ans: "(c) Oracle SQL (Database Management System)" },
+            { q: "What will be the output of <code>print(4 + 3 * 2 ** 2 - 6 // 3)</code>?", opts: ["14", "26", "12", "16"], ans: "(a) 14 [4 + 3*4 - 2 = 4 + 12 - 2 = 14]" },
+            { q: "Which data type in Python represents a mapping of unique keys to values?", opts: ["tuple", "list", "dict", "str"], ans: "(c) dict" },
+            { q: "Find the output of:<pre>s = \"Exam2026\"\nprint(s[:4] + '-' + s[4:])</pre>", opts: ["Exam-2026", "Exam2-026", "Exa-m2026", "Error"], ans: "(a) Exam-2026" },
+            { q: "What is the output of:<pre>L = [10, 20, 30]\nprint(L.pop(), len(L))</pre>", opts: ["10 2", "30 2", "30 3", "None 2"], ans: "(b) 30 2" },
+            { q: "Which of the following statements about Python tuples is TRUE?", opts: ["Tuples support item deletion via del T[0]", "Tuples can be used as dictionary keys if all elements are immutable", "Tuples use square brackets []", "Tuples cannot contain duplicate values"], ans: "(b) Tuples can be used as dictionary keys if all elements are immutable" },
+            { q: "What will <code>dict.fromkeys(['A', 'B', 'C'], 0)</code> return?", opts: ["{'A': 0, 'B': 0, 'C': 0}", "[('A', 0), ('B', 0), ('C', 0)]", "{'A': None, 'B': None, 'C': None}", "TypeError"], ans: "(a) {'A': 0, 'B': 0, 'C': 0}" },
+            { q: "What is the output of <code>math.factorial(5) // math.gcd(15, 25)</code>?", opts: ["24", "24.0", "12", "5"], ans: "(a) 24 [120 // 5 = 24]" },
+            { q: "What are the possible values generated by <code>random.randint(10, 12)</code>?", opts: ["10, 11", "10, 11, 12", "11, 12", "10.0 to 12.0"], ans: "(b) 10, 11, 12" },
+            { q: "Which memory is soldered onto the motherboard and holds the BIOS?", opts: ["RAM", "ROM", "Hard Disk", "Pen Drive"], ans: "(b) ROM" },
+            { q: "Which cyber attack floods a server with overwhelming traffic to make it unavailable to legitimate users?", opts: ["Phishing", "Denial of Service (DoS)", "Plagiarism", "Identity Theft"], ans: "(b) Denial of Service (DoS)" },
+            { q: "The process of converting plaintext into unreadable ciphertext to secure communication is called:", opts: ["Decryption", "Encryption", "Compression", "Compilation"], ans: "(b) Encryption" },
+            { q: "What is the output of:<pre>c = 0\nfor i in range(1, 15, 4):\n    c += 1\nprint(c)</pre>", opts: ["3", "4", "5", "14"], ans: "(b) 4 (i = 1, 5, 9, 13)" },
+            { q: "Which method returns a copy of the string with leading and trailing characters removed?", opts: ["cut()", "trim()", "strip()", "slice()"], ans: "(c) strip()" },
+            { q: "Which of the following is an eco-friendly way to handle obsolete computers?", opts: ["Landfilling", "Open incineration", "Certified E-Waste Recycling", "Dumping in rivers"], ans: "(c) Certified E-Waste Recycling" },
+            { isAR: true, A: "In Python, <code>while True:</code> creates an infinite loop unless terminated internally.", R: "A <code>break</code> statement inside the loop body can exit the infinite loop when a specific condition is met.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "Unicode UTF-8 is backward compatible with 7-bit ASCII.", R: "The first 128 characters of UTF-8 have the exact same binary codes as standard ASCII.", ans: "(a) Both A and R are true and R is the correct explanation of A." },
+            { isAR: true, A: "Digital footprints can be completely erased by simply clearing browser history on a local computer.", R: "Web servers, ISPs, and social media platforms retain logs of online activities independently.", ans: "(d) A is false but R is true." }
+        ],
+        secB: [
+            { q: "State and prove the Consensus Theorem or simplify the Boolean expression: <code>F = A.B + A.B' + A'.B</code>.", ans: "<code>F = A.(B + B') + A'.B = A.1 + A'.B = A + A'.B = A + B</code> (using Complementarity, Identity, and Absorption laws). (2 Marks)" },
+            { q: "Convert:<br>(i) <code>(523)<sub>8</sub></code> to Binary<br>(ii) <code>(10110110)<sub>2</sub></code> to Hexadecimal", orQ: "List any four functions of an Operating System.", ans: "(i) 5=101, 2=010, 3=011 &rarr; <code>(101010011)<sub>2</sub></code> (1 Mark)<br>(ii) 1011=B, 0110=6 &rarr; <code>(B6)<sub>16</sub></code> (1 Mark)<br><strong>OR:</strong> 1. Process Management 2. Memory Management 3. File Management 4. Device Management. (2 Marks)" },
+            { q: "Predict the output of:<pre>s = \"  Python 3.11  \"\nprint(len(s), len(s.strip()))\nprint(s.strip().split())</pre>", ans: "Line 1: <code>15 11</code> (1 Mark)<br>Line 2: <code>['Python', '3.11']</code> (1 Mark)" },
+            { q: "Identify the errors in the following code and rewrite it correctly:<pre>T = (5, 10, 15)\nfor i in range(1, 4):\n    print(T[i])\nT[0] = 50</pre>", ans: "Errors: 1. Index 3 is out of range (use <code>range(len(T))</code>). 2. Tuples are immutable so <code>T[0] = 50</code> raises <code>TypeError</code>. (2 Marks)" },
+            { q: "Write a Python program to input a list of integers and replace every element with the sum of all other elements in the list (e.g., <code>[1, 2, 3]</code> &rarr; <code>[5, 4, 3]</code>).", orQ: "Write a Python program to input a string and print all words having an even number of characters.", ans: "<pre>L = eval(input(\"Enter list: \"))\ntot = sum(L)\nres = [tot - x for x in L]\nprint(res)</pre><strong>OR:</strong><pre>s = input(\"Enter string: \")\nfor w in s.split():\n    if len(w) % 2 == 0:\n        print(w, end=' ')</pre>(2 Marks)" },
+            { q: "What is Plagiarism? Mention two ways students can avoid plagiarism while preparing school projects.", ans: "Plagiarism is copying someone else's work/ideas without acknowledgment. Avoidance: 1. Paraphrase concepts in your own words. 2. Include proper citations and a bibliography for all referenced sources. (2 Marks)" },
+            { q: "Differentiate between <code>get()</code> and <code>setdefault()</code> methods in Python dictionaries.", ans: "<code>D.get(k, default)</code> returns the value for key <code>k</code> if present, else returns <code>default</code> without modifying <code>D</code>. <code>D.setdefault(k, default)</code> inserts <code>k: default</code> into <code>D</code> if <code>k</code> is absent and returns its value. (2 Marks)" }
+        ],
+        secC: [
+            { q: "Draw a flowchart to input a positive integer <code>N</code> and reverse its digits.", ans: "Start &rarr; Input N &rarr; Rev = 0 &rarr; Diamond (Is N &gt; 0?) &rarr; Yes: d = N % 10, Rev = Rev * 10 + d, N = N // 10 (loop back) &rarr; No: Print Rev &rarr; Stop. (3 Marks)" },
+            { q: "Write a Python program to input a string and check whether it is a <strong>Pangram</strong> (a sentence containing every letter of the English alphabet at least once).", orQ: "Write a Python program to input <code>x</code> and <code>n</code> and find the sum of:<br><code>S = 1 - x/2 + x<sup>2</sup>/4 - x<sup>3</sup>/6 + ... up to n terms</code>", ans: "<pre>s = input(\"Enter sentence: \").lower()\nis_pangram = True\nfor code in range(97, 123):\n    if chr(code) not in s:\n        is_pangram = False\n        break\nprint(\"Pangram\" if is_pangram else \"Not a Pangram\")</pre><strong>OR:</strong><pre>x = float(input(\"Enter x: \"))\nn = int(input(\"Enter n: \"))\nS = 1 + sum((((-1)**i) * (x**i)) / (2*i) for i in range(1, n))\nprint(\"Sum =\", S)</pre>(3 Marks)" },
+            { q: "Trace the output of:<pre>L = [4, 8, 12, 16, 20]\nfor i in range(len(L) - 1):\n    L[i] = L[i] + L[i + 1]\nprint(L)\nprint(L[1:4:2])</pre>", ans: "L becomes <code>[12, 20, 28, 36, 20]</code><br>Line 1 Output: <code>[12, 20, 28, 36, 20]</code> (1.5 Marks)<br>Line 2 Output: <code>[20, 36]</code> (1.5 Marks)" }
+        ],
+        secD: [
+            { q: "Write a Python program to input a list of <code>N</code> integers, sort them using <strong>Bubble Sort</strong>, and then search for a user-given value using <strong>Binary Search</strong>.", ans: "<pre>L = eval(input(\"Enter list: \"))\nn = len(L)\nfor i in range(n - 1):\n    for j in range(n - 1 - i):\n        if L[j] > L[j + 1]:\n            L[j], L[j + 1] = L[j + 1], L[j]\nprint(\"Sorted List:\", L)\n\nkey = int(input(\"Search element: \"))\nlow, high, pos = 0, n - 1, -1\nwhile low <= high:\n    mid = (low + high) // 2\n    if L[mid] == key: pos = mid; break\n    elif L[mid] < key: low = mid + 1\n    else: high = mid - 1\nprint(\"Found at index:\" if pos != -1 else \"Not found\", pos)</pre>(4 Marks)" },
+            { q: "Write a Python program to create a dictionary <code>Library</code> where keys are Book Names and values are number of copies available. Implement a menu-driven program to:<br>1. Issue a book (decrease count by 1 if &gt; 0, else display 'Out of Stock').<br>2. Return a book (increase count by 1).<br>3. Display all available books.<br>4. Exit", orQ: "Write a Python program to input a tuple of numbers and create a dictionary where keys are the numbers and values are tuples <code>(Square, Cube)</code> for each unique number.", ans: "<pre>Library = {'Python 101': 3, 'Computer Systems': 2, 'AI Basics': 0}\nwhile True:\n    ch = int(input(\"1.Issue 2.Return 3.Show 4.Exit: \"))\n    if ch == 1:\n        b = input(\"Book name: \")\n        if Library.get(b, 0) > 0:\n            Library[b] -= 1\n            print(\"Book Issued\")\n        else:\n            print(\"Out of Stock\")\n    elif ch == 2:\n        b = input(\"Book name: \")\n        Library[b] = Library.get(b, 0) + 1\n        print(\"Book Returned\")\n    elif ch == 3:\n        print(Library)\n    elif ch == 4:\n        break</pre>(4 Marks)" },
+            { q: "Explain the following concepts with examples:<br>(i) Digital Footprint<br>(ii) Intellectual Property Rights (IPR)<br>(iii) E-Waste Hazards<br>(iv) Cyber Safety Practices", ans: "(i) <strong>Digital Footprint:</strong> Permanent trail of online actions/data left by a user. (1 Mark)<br>(ii) <strong>IPR:</strong> Legal protections (Copyright, Patent, Trademark) safeguarding creations of the mind. (1 Mark)<br>(iii) <strong>E-Waste Hazards:</strong> Soil/water contamination by toxic heavy metals (lead, mercury) from discarded electronics. (1 Mark)<br>(iv) <strong>Cyber Safety:</strong> Using strong passwords, 2FA, firewalls, and safe browsing habits to prevent cyber attacks. (1 Mark)" },
+            { q: "Construct the truth table and draw the logic circuit using basic gates for <code>F(A, B, C) = A'.B' + B.C + A.C'</code>.", ans: "Circuit with 3 NOT gates (A', B', C'), 3 AND gates, and 1 three-input OR gate. (2 Marks)<br>Truth table for 8 rows (000 to 111): F = [1, 1, 0, 1, 1, 0, 1, 1]. (2 Marks)" }
+        ],
+        secE: [
+            { q: "<strong>Case Study (Comprehensive Python Data Structures):</strong><br>A weather station stores hourly humidity readings in a list <code>H = [65, 70, 68, 72, 75, 70, 64]</code>.<br>(i) Write a Python statement to convert <code>H</code> into a tuple <code>H_tup</code>. (1)<br>(ii) Write a Python statement to find the variance and standard deviation of <code>H</code> using the <code>statistics</code> module. (1)<br>(iii) Write a Python statement to remove the first occurrence of <code>70</code> from list <code>H</code>. (1)<br>(iv) Compare List, Tuple, and Dictionary in Python on the basis of Mutability and Indexing/Lookup mechanism. (2)", ans: "(i) <code>H_tup = tuple(H)</code> (1 Mark)<br>(ii) <code>import statistics; print(statistics.variance(H), statistics.stdev(H))</code> (1 Mark)<br>(iii) <code>H.remove(70)</code> (1 Mark)<br>(iv) <strong>List:</strong> Mutable, indexed sequentially by integer positions (0 to n-1). <strong>Tuple:</strong> Immutable, indexed sequentially by integer positions (0 to n-1). <strong>Dictionary:</strong> Mutable, accessed via unique immutable keys using hash-table lookup. (2 Marks)" },
+            { q: "Write a Python program to input a positive integer <code>N</code> and print the following number pyramid, and also write code to input a string and count uppercase, lowercase, vowels, consonants, and digits:<pre>      1\n    2 3 2\n  3 4 5 4 3\n4 5 6 7 6 5 4</pre>", orQ: "Write a Python program to input a list of integers and find all sublists of length 3 whose elements form an Arithmetic Progression (AP), and compute the mean of the entire list.", ans: "<pre>n = int(input(\"Enter rows (e.g. 4): \"))\nfor i in range(1, n + 1):\n    print(\"  \" * (n - i), end=\"\")\n    for j in range(i, 2 * i):\n        print(j, end=\" \")\n    for j in range(2 * i - 2, i - 1, -1):\n        print(j, end=\" \")\n    print()\n\ns = input(\"Enter string: \")\nu = sum(1 for c in s if c.isupper())\nl = sum(1 for c in s if c.islower())\nv = sum(1 for c in s if c.lower() in 'aeiou')\nc = sum(1 for c in s if c.isalpha() and c.lower() not in 'aeiou')\nd = sum(1 for c in s if c.isdigit())\nprint(f\"Upper:{u}, Lower:{l}, Vowels:{v}, Consonants:{c}, Digits:{d}\")</pre>(3 Marks Pyramid + 2 Marks Character Analysis)" }
+        ]
+    }
+];
+
+// ============================================================================
+// APPLICATION STATE & RENDERING ENGINE
+// ============================================================================
+let currentMode = 'paper'; // 'paper' or 'key'
+let currentSetIndex = 0;   // 0 to 9
+let timerSeconds = 3 * 3600;
+let timerInterval = null;
+
+function initApp() {
+    renderSetTabs();
+    renderCurrentView();
+}
+
+function renderSetTabs() {
+    const container = document.getElementById('setTabsContainer');
+    container.innerHTML = PAPERS_DATA.map((paper, idx) => {
+        const isActive = idx === currentSetIndex;
+        const label = currentMode === 'paper' ? `Paper ${paper.setNo}` : `Answer Key ${paper.setNo}`;
+        const activeClasses = isActive
+            ? 'bg-amber-500 text-slate-950 font-bold shadow-sm'
+            : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white font-medium';
+        return `<button onclick="selectSet(${idx})" class="px-3 py-1 rounded text-xs whitespace-nowrap transition cursor-pointer ${activeClasses}">${label}</button>`;
+    }).join('');
+}
+
+function switchMode(mode) {
+    currentMode = mode;
+    const btnPaper = document.getElementById('btnModePaper');
+    const btnKey = document.getElementById('btnModeKey');
+
+    if (mode === 'paper') {
+        btnPaper.className = 'px-3.5 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition bg-blue-600 text-white shadow cursor-pointer';
+        btnKey.className = 'px-3.5 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white cursor-pointer';
+    } else {
+        btnKey.className = 'px-3.5 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow cursor-pointer';
+        btnPaper.className = 'px-3.5 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white cursor-pointer';
+    }
+    renderSetTabs();
+    renderCurrentView();
+}
+
+function selectSet(index) {
+    currentSetIndex = index;
+    renderSetTabs();
+    renderCurrentView();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderCurrentView() {
+    const paper = PAPERS_DATA[currentSetIndex];
+    const container = document.getElementById('paperRenderArea');
+
+    if (currentMode === 'paper') {
+        container.innerHTML = buildQuestionPaperHTML(paper);
+    } else {
+        container.innerHTML = buildAnswerKeyHTML(paper);
+    }
+}
+
+function buildQuestionPaperHTML(p) {
+    let html = `
+        <!-- CBSE Official Header Block -->
+        <div style="border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 14px;">
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 10.5pt; margin-bottom: 6px;">
+                <span>Series: ${p.series}</span>
+                <span>Roll No.: ____________________</span>
+                <span>Code No. ${p.code}</span>
+            </div>
+            <div style="text-align: center; margin: 6px 0;">
+                <div style="font-size: 14pt; font-weight: bold; letter-spacing: 0.5px;">CENTRAL BOARD OF SECONDARY EDUCATION (CBSE)</div>
+                <div style="font-size: 12.5pt; font-weight: bold; margin-top: 2px;">PRE-ANNUAL / ANNUAL EXAMINATION — CLASS XI</div>
+                <div style="font-size: 13pt; font-weight: bold; text-decoration: underline; margin-top: 3px;">COMPUTER SCIENCE (SUBJECT CODE: 083)</div>
+                <div style="font-size: 11pt; font-weight: bold; margin-top: 3px;">PRACTICE QUESTION PAPER — SET ${p.setNo}</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 11pt; margin-top: 10px;">
+                <span>Time Allowed: 3 Hours</span>
+                <span>Maximum Marks: 70</span>
+            </div>
+        </div>
+
+        <!-- General Instructions -->
+        <div style="border: 1px solid #000; padding: 10px 14px; margin-bottom: 16px; font-size: 10.5pt; background-color: #fafafa;">
+            <div style="font-weight: bold; text-decoration: underline; margin-bottom: 4px;">General Instructions:</div>
+            <ol style="margin: 0; padding-left: 20px; line-height: 1.4;">
+                <li>Please check this question paper contains <strong>37 questions</strong> divided into five sections: <strong>Section A, B, C, D, and E</strong>.</li>
+                <li>All questions are compulsory. However, internal choices have been provided in some questions. Attempt only one of the choices in such questions.</li>
+                <li><strong>Section A</strong> consists of 21 questions (Q.1 to Q.21). Each question carries <strong>1 Mark</strong> (18 MCQs and 3 Assertion-Reasoning questions).</li>
+                <li><strong>Section B</strong> consists of 7 Very Short Answer questions (Q.22 to Q.28). Each question carries <strong>2 Marks</strong>.</li>
+                <li><strong>Section C</strong> consists of 3 Short Answer questions (Q.29 to Q.31). Each question carries <strong>3 Marks</strong>.</li>
+                <li><strong>Section D</strong> consists of 4 Long Answer questions (Q.32 to Q.35). Each question carries <strong>4 Marks</strong>.</li>
+                <li><strong>Section E</strong> consists of 2 Case-Study / Programming questions (Q.36 to Q.37). Each question carries <strong>5 Marks</strong>.</li>
+                <li>All programming questions are to be answered using <strong>Python Language</strong> only.</li>
+            </ol>
+        </div>
+
+        <!-- SECTION A -->
+        <div class="section-banner">Section – A (21 × 1 = 21 Marks)</div>
+    `;
+
+    // Render Q1 - Q21
+    p.secA.forEach((item, idx) => {
+        const qNum = idx + 1;
+        if (!item.isAR) {
+            html += `
+                <div class="q-row">
+                    <div class="q-num">Q${qNum}.</div>
+                    <div class="q-body">
+                        <div>${item.q}</div>
+                        <div class="mcq-grid">
+                            <div>(a) ${item.opts[0]}</div>
+                            <div>(b) ${item.opts[1]}</div>
+                            <div>(c) ${item.opts[2]}</div>
+                            <div>(d) ${item.opts[3]}</div>
+                        </div>
+                    </div>
+                    <div class="q-marks">[1]</div>
+                </div>
+            `;
+        } else {
+            if (qNum === 19) {
+                html += `
+                    <div style="margin: 10px 0 8px 0; padding: 6px 10px; border: 1px dashed #64748b; font-size: 10pt;">
+                        <strong>Directions (Q.19 to Q.21):</strong> In the following questions, a statement of Assertion (A) is followed by a statement of Reason (R). Choose the correct option:<br>
+                        (a) Both A and R are true and R is the correct explanation of A.<br>
+                        (b) Both A and R are true, but R is not the correct explanation of A.<br>
+                        (c) A is true, but R is false.<br>
+                        (d) A is false, but R is true.
+                    </div>
+                `;
+            }
+            html += `
+                <div class="q-row">
+                    <div class="q-num">Q${qNum}.</div>
+                    <div class="q-body">
+                        <div><strong>Assertion (A):</strong> ${item.A}</div>
+                        <div><strong>Reason (R):</strong> ${item.R}</div>
+                    </div>
+                    <div class="q-marks">[1]</div>
+                </div>
+            `;
+        }
+    });
+
+    // Render Section B (Q22 - Q28)
+    html += `<div class="section-banner">Section – B (7 × 2 = 14 Marks)</div>`;
+    p.secB.forEach((item, idx) => {
+        const qNum = 22 + idx;
+        html += `
+            <div class="q-row">
+                <div class="q-num">Q${qNum}.</div>
+                <div class="q-body">
+                    <div>${item.q}</div>
+                    ${item.orQ ? `<div class="or-divider">— OR —</div><div>${item.orQ}</div>` : ''}
+                </div>
+                <div class="q-marks">[2]</div>
+            </div>
+        `;
+    });
+
+    // Render Section C (Q29 - Q31)
+    html += `<div class="section-banner">Section – C (3 × 3 = 9 Marks)</div>`;
+    p.secC.forEach((item, idx) => {
+        const qNum = 29 + idx;
+        html += `
+            <div class="q-row">
+                <div class="q-num">Q${qNum}.</div>
+                <div class="q-body">
+                    <div>${item.q}</div>
+                    ${item.orQ ? `<div class="or-divider">— OR —</div><div>${item.orQ}</div>` : ''}
+                </div>
+                <div class="q-marks">[3]</div>
+            </div>
+        `;
+    });
+
+    // Render Section D (Q32 - Q35)
+    html += `<div class="section-banner">Section – D (4 × 4 = 16 Marks)</div>`;
+    p.secD.forEach((item, idx) => {
+        const qNum = 32 + idx;
+        html += `
+            <div class="q-row">
+                <div class="q-num">Q${qNum}.</div>
+                <div class="q-body">
+                    <div>${item.q}</div>
+                    ${item.orQ ? `<div class="or-divider">— OR —</div><div>${item.orQ}</div>` : ''}
+                </div>
+                <div class="q-marks">[4]</div>
+            </div>
+        `;
+    });
+
+    // Render Section E (Q36 - Q37)
+    html += `<div class="section-banner">Section – E (2 × 5 = 10 Marks)</div>`;
+    p.secE.forEach((item, idx) => {
+        const qNum = 36 + idx;
+        html += `
+            <div class="q-row">
+                <div class="q-num">Q${qNum}.</div>
+                <div class="q-body">
+                    <div>${item.q}</div>
+                    ${item.orQ ? `<div class="or-divider">— OR —</div><div>${item.orQ}</div>` : ''}
+                </div>
+                <div class="q-marks">[5]</div>
+            </div>
+        `;
+    });
+
+    html += `
+        <div style="text-align: center; font-weight: bold; margin-top: 24px; border-top: 1.5px solid #000; padding-top: 8px;">
+            *** END OF QUESTION PAPER (SET ${p.setNo}) ***
+        </div>
+    `;
+
+    return html;
+}
+
+function buildAnswerKeyHTML(p) {
+    let html = `
+        <!-- CBSE Official Marking Scheme Header -->
+        <div style="border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 10.5pt;">
+                <span>Series: ${p.series}</span>
+                <span>Marking Scheme &amp; Solutions</span>
+                <span>Code No. ${p.code}</span>
+            </div>
+            <div style="text-align: center; margin-top: 6px;">
+                <div style="font-size: 13.5pt; font-weight: bold;">CBSE CLASS XI — COMPUTER SCIENCE (083)</div>
+                <div style="font-size: 12.5pt; font-weight: bold; color: #065f46; text-decoration: underline; margin-top: 2px;">
+                    ANSWER KEY &amp; STEP-WISE MARKING SCHEME — SET ${p.setNo}
+                </div>
+            </div>
+        </div>
+
+        <div class="section-banner">Section – A : Answer Key (Q.1 to Q.21 — 1 Mark Each)</div>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 10.5pt;">
+            <thead>
+                <tr style="background-color: #f1f5f9;">
+                    <th style="border: 1px solid #000; padding: 5px 8px; width: 65px; text-align: center;">Q. No.</th>
+                    <th style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Correct Option &amp; Brief Explanation</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    p.secA.forEach((item, idx) => {
+        html += `
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px 8px; text-align: center; font-weight: bold;">Q${idx + 1}</td>
+                <td style="border: 1px solid #000; padding: 5px 10px;">${item.ans}</td>
+            </tr>
+        `;
+    });
+
+    html += `</tbody></table>`;
+
+    // Section B Answers
+    html += `<div class="section-banner">Section – B : Solutions (Q.22 to Q.28 — 2 Marks Each)</div>`;
+    p.secB.forEach((item, idx) => {
+        html += `
+            <div class="q-row" style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+                <div class="q-num">Q${22 + idx}.</div>
+                <div class="q-body">${item.ans}</div>
+                <div class="q-marks">[2]</div>
+            </div>
+        `;
+    });
+
+    // Section C Answers
+    html += `<div class="section-banner">Section – C : Solutions (Q.29 to Q.31 — 3 Marks Each)</div>`;
+    p.secC.forEach((item, idx) => {
+        html += `
+            <div class="q-row" style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+                <div class="q-num">Q${29 + idx}.</div>
+                <div class="q-body">${item.ans}</div>
+                <div class="q-marks">[3]</div>
+            </div>
+        `;
+    });
+
+    // Section D Answers
+    html += `<div class="section-banner">Section – D : Solutions (Q.32 to Q.35 — 4 Marks Each)</div>`;
+    p.secD.forEach((item, idx) => {
+        html += `
+            <div class="q-row" style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+                <div class="q-num">Q${32 + idx}.</div>
+                <div class="q-body">${item.ans}</div>
+                <div class="q-marks">[4]</div>
+            </div>
+        `;
+    });
+
+    // Section E Answers
+    html += `<div class="section-banner">Section – E : Case Study &amp; Programming Solutions (Q.36 to Q.37 — 5 Marks Each)</div>`;
+    p.secE.forEach((item, idx) => {
+        html += `
+            <div class="q-row" style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+                <div class="q-num">Q${36 + idx}.</div>
+                <div class="q-body">${item.ans}</div>
+                <div class="q-marks">[5]</div>
+            </div>
+        `;
+    });
+
+    html += `
+        <div style="text-align: center; font-weight: bold; margin-top: 20px; border-top: 1.5px solid #000; padding-top: 8px;">
+            *** END OF ANSWER KEY (SET ${p.setNo}) ***
+        </div>
+    `;
+
+    return html;
+}
+
+// ============================================================================
+// EXAM COUNTDOWN TIMER CONTROLS
+// ============================================================================
+function updateTimerDisplay() {
+    const hrs = String(Math.floor(timerSeconds / 3600)).padStart(2, '0');
+    const mins = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, '0');
+    const secs = String(timerSeconds % 60).padStart(2, '0');
+    document.getElementById('timerDisplay').textContent = `${hrs}:${mins}:${secs}`;
+}
+
+function toggleTimer() {
+    const btn = document.getElementById('timerToggleBtn');
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.textContent = 'Resume';
+    } else {
+        btn.textContent = 'Pause';
+        timerInterval = setInterval(() => {
+            if (timerSeconds > 0) {
+                timerSeconds--;
+                updateTimerDisplay();
+            } else {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                btn.textContent = 'Time Up';
+            }
+        }, 1000);
+    }
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerSeconds = 3 * 3600;
+    updateTimerDisplay();
+    document.getElementById('timerToggleBtn').textContent = 'Start';
+}
+
+window.onload = initApp;
+</script>
+</body>
+</html>
